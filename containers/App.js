@@ -2,6 +2,11 @@ import React, {Component} from 'react';
 
 export default class App extends Component {
     render () {
-        return <p>This is my test app</p>
+        let main = <div>
+            <h1>Testing</h1>
+            <p>This is my test app</p>
+        </div>;
+
+        return main;
     }
 }
