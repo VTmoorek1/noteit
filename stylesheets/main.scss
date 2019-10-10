@@ -1,3 +1,118 @@
+$standardShadow: 0px 0px 5px 4px rgba(0,0,0,0.75);
+$smallShadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+
 body {
     font-family: 'Oswald', sans-serif;
+    min-width: 300px;
+}
+
+.navbar {
+    a {
+        font-size : 1.5em;
+    }   
+}
+
+.note {
+    width : 100%;
+    margin-top: 15px;
+    border-radius : 20px;
+    box-shadow : $smallShadow;
+    padding : 15px;
+    background-color : lightslategrey;
+    word-wrap: break-word;
+    color : white;
+}
+
+#mediaDiv {
+    
+    audio {
+        width : 100%;
+    }
+
+    video,img {
+        height : auto;
+        width : 100%;
+    }
+}
+
+#midDiv {
+    margin-top : 20px;
+}
+
+#bottomDiv {
+    margin-top: 20px;
+    max-width: 100%;
+}
+
+#titleDiv {
+    margin-left : 60px;
+}
+
+#userImg
+{
+    float: left;
+    width : 40px;
+    height : 40px;
+    border-radius: 20px;
+    box-shadow: $smallShadow;
+}
+
+.circleButtons {
+        border-radius: 15px;
+        width : 30px;
+        height : 30px;
+        text-align: center;
+        padding : 6px 0px;
+        font-size: 15px;
+        line-height: 1;
+}
+
+#okBtn {
+    margin-right : 5px;
+
+}
+
+.custom-file {
+    margin-bottom: 1rem;
+}
+
+#dBtnDiv {
+    display : block;
+    float : right;
+}
+
+#buttonDiv {
+
+    #addBtn {
+        position: absolute;
+        left : 85%;
+        top : 0%;
+        border-radius: 25px;
+        width : 50px;
+        height : 50px;
+        text-align: center;
+        margin-top: -20px;
+        box-shadow: $standardShadow;
+    }
+}
+
+.form {
+    padding: 10px;
+    position : absolute;
+    background-color: white;
+    left: 50%;
+    top: 40%;
+    width: 500px;
+    border-radius: 15px;
+    transform : translate(-50%,-50%);
+    box-shadow: $standardShadow;
+}
+
+#dialog {
+    background-color: rgba(0,0,0,0.5);
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
 }
