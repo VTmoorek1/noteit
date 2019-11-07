@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import PropTypes from 'prop-types';
 import Media from './Media';
 
 export default class Note extends Component {
@@ -14,11 +14,15 @@ export default class Note extends Component {
 
     render() {
 
+        console.log('-----------------id: ' + this.props.mID);
         return <div className="note bg-dark">
             <div id="topDiv">
                 <img src="https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/13000724/Belgian-Malinois-On-White-01.jpg" id="userImg" />
                 <div id="titleDiv">
                     <h3 id="title">{this.props.title}</h3>
+                </div>
+                <div id="topBtnDiv">
+                    <button onClick={() => this.props.remove(this.props.mID)} className="btn btn-danger circleButtons" id="cancelNoteBtn" type="button"><i className="fa fa-times"></i></button>
                 </div>
             </div>
             <div id="midDiv">
@@ -32,3 +36,11 @@ export default class Note extends Component {
     }
 
 } 
+
+Note.propTypes = {
+    title : PropTypes.string.isRequired,
+    mID : PropTypes.string.isRequired,
+    desc : PropTypes.string.isRequired,
+    file : PropTypes.object.isRequired,
+    remove : PropTypes.func
+}

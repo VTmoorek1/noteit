@@ -16,21 +16,31 @@ app.use(express.static(__dirname + './../'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// For testing notes array
-let notes = [];
-
 // Send the notes based on page
-app.get('/getnotes/:id', (req,res) => {
+app.get('/getnotes/:id', async (req,res) => {
     
     let pageID = req.params.id;
+    let notes = await dbHandler.retrieveNotes(pageID);
+    
+    console.log('Get notes ' + notes[0].file.buffer.length());
 
-    console.log('Get notes ' + pageID);
+
+
     res.json(notes);
     res.end();
 });
 
+// Delete note endpoint
+app.delete('/removenote/:id',async (req,res) => {
+    
+    const noteID = req.params.id;  
+    console.log(await dbHandler.removeNote(noteID));
+
+    res.status(204).end();
+});
+
 // Add note post endpoint
-app.post('/addnote', upload.single('file'), (req, res) => {
+app.post('/addnote', upload.single('file'), async (req, res) => {
 
     let result = 'Note Added.';
 
@@ -43,17 +53,16 @@ app.post('/addnote', upload.single('file'), (req, res) => {
             title: req.body.title,
             desc: req.body.desc,
             user: req.body.user,
+            page : req.body.page,
             file: {
                 name : req.file.originalname,
                 type : req.file.mimetype,
                 size : req.file.size,
-                file : req.file.buffer
+                buffer : req.file.buffer
             }
         };
 
-        dbHandler.addNote(note);
-
-        console.log(note);
+        result = await dbHandler.addNote(note);
 
     } catch (err) {
         result = 'Error adding note: ' + err;

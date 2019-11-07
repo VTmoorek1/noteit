@@ -18,6 +18,8 @@ module.exports = {
             }
         ]
     },
+    debug: true,
+    devtool: "#eval-source-map",
     output: {
         path: parentDir + '/dist',
         filename: 'bundle.js'

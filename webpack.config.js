@@ -18,6 +18,7 @@ module.exports = {
             }
         ]
     },
+    mode : 'development',
     output: {
         path: parentDir + '/dist',
         filename: 'bundle.js'

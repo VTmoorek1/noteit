@@ -3,7 +3,7 @@ $smallShadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 
 body {
     font-family: 'Oswald', sans-serif;
-    min-width: 300px;
+    min-width: 450px;
 }
 
 .navbar {
@@ -45,7 +45,15 @@ body {
 }
 
 #titleDiv {
-    margin-left : 60px;
+    margin-left : 20px;
+    margin-bottom : 20px;
+    float : left;
+}
+
+#topBtnDiv {
+    float: right;
+    margin-top: -5px;
+    margin-right: -5px;
 }
 
 #userImg
@@ -81,19 +89,25 @@ body {
     float : right;
 }
 
-#buttonDiv {
+#addBtn {
+    position: absolute;
+    left : 95%;
+    border-radius: 25px;
+    width : 50px;
+    height : 50px;
+    text-align: center;
+    box-shadow: $standardShadow;
+    z-index : 10;
+}
 
-    #addBtn {
-        position: absolute;
-        left : 85%;
-        top : 0%;
-        border-radius: 25px;
-        width : 50px;
-        height : 50px;
-        text-align: center;
-        margin-top: -20px;
-        box-shadow: $standardShadow;
-    }
+#pageDiv {
+    margin-top: 10px;  
+    margin-bottom: 10px; 
+}
+
+#pageTitle {
+    border-bottom : 1px solid darkgray; 
+    padding : 0px 0px 5px 5px;
 }
 
 .form {
@@ -114,5 +128,6 @@ body {
 	height: 100%;
 	position: absolute;
 	left: 0;
-	top: 0;
+    top: 0;
+    z-index: 11;
 }
