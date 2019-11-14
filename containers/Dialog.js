@@ -12,6 +12,7 @@ export default class Dialog extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleFileChange = this.handleFileChange.bind(this);
+        this.addAction = this.addAction.bind(this);
         this.fileInput = React.createRef();
 
     }
@@ -26,8 +27,12 @@ export default class Dialog extends Component {
         document.getElementById('fileLabel').innerHTML = this.fileInput.current.files[0].name; 
     }
 
+    addAction () {
+        this.props.add(this.state.title,this.state.desc,this.fileInput);
+    }
+
     render() {
-        return <div id="dialog">
+        return <div className="dialog">
             <div className="form">
                 <form>
                     <div className="form-group">
@@ -43,7 +48,7 @@ export default class Dialog extends Component {
                         <label id="fileLabel" className="custom-file-label" htmlFor="noteFile">Choose note file...</label>
                     </div>
                     <div id="dBtnDiv">
-                        <button onClick={()=>this.props.add(this.state.title,this.state.desc,this.fileInput)} 
+                        <button onClick={this.addAction} 
                             className="btn btn-success circleButtons" id="okBtn" type="button"><i className="fa fa-check"></i></button>
                         <button onClick={this.props.cancel} className="btn btn-danger circleButtons" id="cancelBtn" type="button"><i className="fa fa-times"></i></button>
                     </div>

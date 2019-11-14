@@ -3,6 +3,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Note from './Note';
+import Dialog from './Dialog';
+import RemoveDialog from './GeneralDialog'
 import { base64ToArrayBuffer } from '../bin/Utilites'
 import { strict } from 'assert';
 
@@ -13,26 +15,54 @@ export default class Page extends Component {
         this.addNote = this.addNote.bind(this);
         this.addClick = this.addClick.bind(this);
         this.removeClick = this.removeClick.bind(this);
+        this.cancelRemove = this.cancelRemove.bind(this);
         this.removeNote = this.removeNote.bind(this);
+        this.getDialogData = this.getDialogData.bind(this);
 
         this.state = {
             notes: [],
-            removeHandler: this.removeClick
+            showDialog : false,
+            removeObj : null
         }
+    }
+
+    showDialog()
+    {
+        this.setState({showDialog : true});
+    }
+
+    hideDialog() {
+        this.setState({ showDialog: false });
+    }
+
+    getDialogData(title, desc, fileInput, user = 'Kevin') {
+        const file = fileInput.current.files[0];
+        let noteId = Page.sendNote(title, desc, file, user, this.props.title);
+        this.addNote(title, desc,file , noteId);
+        this.hideDialog();
     }
 
     addClick(e) {
         e.preventDefault();
 
-        this.props.showDlg();
+        this.showDialog();
     }
 
-    removeClick(id) {
-        this.removeNote(id);
+    removeClick(obj) {
+        console.log('remove click: ' + obj)
+        this.setState({removeObj : obj});
+    }
+
+    cancelRemove()
+    {
+        this.setState({removeObj : null});
     }
 
     async removeNote(id) {
         try {
+
+            console.log('remove id: ' + id);
+
             // Get index of id
             for (var i = 0; i < this.state.notes.length; i++) {
                 if (id === this.state.notes[i].props.mID) {
@@ -51,6 +81,8 @@ export default class Page extends Component {
             });
 
             console.log('note removed ' + await response.text());
+
+            this.setState({removeObj : null});
 
         } catch (err) {
             console.error(err);
@@ -81,21 +113,6 @@ export default class Page extends Component {
             console.log('Error: ' + err);
         }
     }
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        console.log('get derived state: ' + nextProps);
-
-        if (nextProps.noteTitle) {
-            let noteId = Page.sendNote(nextProps.noteTitle, nextProps.desc, nextProps.file, nextProps.user, nextProps.title);
-
-            let prevNotes = prevState.notes;
-            return { notes: [<Note remove={prevState.removeHandler} key={noteId} mID={noteId} title={nextProps.noteTitle} desc={nextProps.desc} file={nextProps.file} />, ...prevNotes] }
-
-        }
-
-        return null;
-    }
-
 
     async componentDidMount() {
         try {
@@ -128,16 +145,30 @@ export default class Page extends Component {
 
     render() {
 
-        return <div id="pageDiv" className="col-8">
+        let dialog = <div></div>;
+        let remDialog = <div></div>;
+
+        if (this.state.showDialog) {
+            dialog = <Dialog cancel={this.hideDialog} add={this.getDialogData} />;
+        }
+
+        if (this.state.removeObj) {
+            const noteMsg = `Are you sure you want to remove ${this.state.removeObj.name}?`;
+            remDialog = <RemoveDialog okAction={()=>this.removeNote(this.state.removeObj.id)} cancelAction={this.cancelRemove}
+             message={noteMsg} />;
+        }
+        
+        return <div id="pageDiv">
             <button onClick={this.addClick} id="addBtn" type="button" className="btn btn-primary"><i className="fa fa-plus"></i></button>
             <h4 id="pageTitle">{this.props.title}</h4>
             {this.state.notes}
+            {dialog}
+            {remDialog}
         </div>
     }
 
 }
 
 Page.propTypes = {
-    title: PropTypes.string.isRequired,
-    showDlg: PropTypes.func.isRequired
+    title: PropTypes.string.isRequired
 }

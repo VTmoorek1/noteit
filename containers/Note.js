@@ -6,15 +6,12 @@ export default class Note extends Component {
 
     constructor(props) {
         super(props);
-
-        //this.state = { showDialog: false };
-
-        // this.addClick = this.addClick.bind(this);
     }
 
     render() {
 
-        console.log('-----------------id: ' + this.props.mID);
+        const remNote = {id :this.props.mID, name : this.props.title};
+
         return <div className="note bg-dark">
             <div id="topDiv">
                 <img src="https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/13000724/Belgian-Malinois-On-White-01.jpg" id="userImg" />
@@ -22,7 +19,8 @@ export default class Note extends Component {
                     <h3 id="title">{this.props.title}</h3>
                 </div>
                 <div id="topBtnDiv">
-                    <button onClick={() => this.props.remove(this.props.mID)} className="btn btn-danger circleButtons" id="cancelNoteBtn" type="button"><i className="fa fa-times"></i></button>
+                    <button onClick={() => this.props.remove(remNote)} 
+                    className="btn btn-danger circleButtons" id="cancelNoteBtn" type="button"><i className="fa fa-times"></i></button>
                 </div>
             </div>
             <div id="midDiv">
