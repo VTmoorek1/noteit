@@ -51,12 +51,15 @@ module.exports = {
         return typeStr;
     },
     base64ToArrayBuffer : (base64) => {
-        var binary_string =  window.atob(base64);
-        var len = binary_string.length;
-        var bytes = new Uint8Array( len );
-        for (var i = 0; i < len; i++)        {
-            bytes[i] = binary_string.charCodeAt(i);
+        
+        let binaryString =  window.atob(base64);
+        let length = binaryString.length;
+        let bytes = new Uint8Array(length);
+
+        for (let i = 0; i < length; i++)   {
+            bytes[i] = binaryString.charCodeAt(i);
         }
+
         return bytes.buffer;
     }
 };

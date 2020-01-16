@@ -18,6 +18,8 @@ export default class Page extends Component {
         this.cancelRemove = this.cancelRemove.bind(this);
         this.removeNote = this.removeNote.bind(this);
         this.getDialogData = this.getDialogData.bind(this);
+        this.hideDialog = this.hideDialog.bind(this);
+        this.showDialog = this.showDialog.bind(this);
 
         this.state = {
             notes: [],
@@ -144,26 +146,14 @@ export default class Page extends Component {
 
 
     render() {
-
-        let dialog = <div></div>;
-        let remDialog = <div></div>;
-
-        if (this.state.showDialog) {
-            dialog = <Dialog cancel={this.hideDialog} add={this.getDialogData} />;
-        }
-
-        if (this.state.removeObj) {
-            const noteMsg = `Are you sure you want to remove ${this.state.removeObj.name}?`;
-            remDialog = <RemoveDialog okAction={()=>this.removeNote(this.state.removeObj.id)} cancelAction={this.cancelRemove}
-             message={noteMsg} />;
-        }
         
         return <div id="pageDiv">
             <button onClick={this.addClick} id="addBtn" type="button" className="btn btn-primary"><i className="fa fa-plus"></i></button>
             <h4 id="pageTitle">{this.props.title}</h4>
             {this.state.notes}
-            {dialog}
-            {remDialog}
+            {this.state.showDialog && <Dialog cancel={this.hideDialog} add={this.getDialogData} />}
+            {this.state.removeObj && <RemoveDialog okAction={()=>this.removeNote(this.state.removeObj.id)} cancelAction={this.cancelRemove}
+             message={`Are you sure you want to remove ${this.state.removeObj.name}?`} />}
         </div>
     }
 

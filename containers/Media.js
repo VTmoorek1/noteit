@@ -19,10 +19,7 @@ export default class Media extends Component {
 
         // Use the file reader to load up media        
         reader.onload = (event) => {
-
-            console.log('Loading: ' + event.target.result);
             document.getElementById(cID).src = event.target.result;
-
         };
 
         const MEDIA_TYPES = {
