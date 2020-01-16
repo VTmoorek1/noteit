@@ -21,11 +21,6 @@ app.get('/getnotes/:id', async (req,res) => {
     
     let pageID = req.params.id;
     let notes = await dbHandler.retrieveNotes(pageID);
-    
-    console.log('Get notes ' + notes[0].file.buffer.length());
-
-
-
     res.json(notes);
     res.end();
 });

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * Page Menu will load page items and selected page. Future enhancement.
+ */
 export default class PageMenu extends Component {
 
     constructor(props) {

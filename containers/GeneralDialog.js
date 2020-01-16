@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-
+/**
+ * General use dialog. Can set message and ok and cancel action events
+ * from parent
+ */
 export default class GeneralDialog extends Component {
 
     constructor(props) {

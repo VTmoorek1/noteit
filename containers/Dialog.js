@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 
+
+/**
+ * Dialog class represents the input of media (video,audio,image), title 
+ * and decription
+ */
 export default class Dialog extends Component {
 
     constructor(props)

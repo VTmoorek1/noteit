@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Media from './Media';
 
+/**
+ * Note is a container for a user (future enhancement), title, 
+ * description, and media component. These will fill the current page
+ * loaded
+ */
 export default class Note extends Component {
 
     constructor(props) {

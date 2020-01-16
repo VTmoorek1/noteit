@@ -7,6 +7,7 @@ let db = null;
 
 module.exports = (() => {
 
+    // Connect to mongodb, happens on server start
     MongoClient.connect(url,{
         useUnifiedTopology : true
     }, (err,client) => {
@@ -17,6 +18,7 @@ module.exports = (() => {
         db = client.db('noteit');
     });    
 
+    // Add note object to db
     addNoteDB = (note) => {
 
         return new Promise((resolve,reject) => {
@@ -35,6 +37,7 @@ module.exports = (() => {
     });
 }
 
+    // Get all notes from DB based on the current page
     retrieveNotesDB = (pageID) => {
     
         return new Promise((resolve,reject) => {
@@ -53,6 +56,7 @@ module.exports = (() => {
 
     })};
 
+    // Remove note from DB based on the current note
     removeNoteDB = (noteID) => {
 
         return new Promise ((resolve,reject) => {

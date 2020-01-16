@@ -10,8 +10,11 @@ export default class App extends Component {
     
     render() {
         
+        {/* Load the page with media posts here */}
         let page = <Page title="Funny Page" />
 
+        {/* Use bootstrap for 3 columns, first column to be Page menu,
+            second column to be the media page, third column is spacing */}
         let main = <div>
             <div className="container-fluid">
                 <div className="row">

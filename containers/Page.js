@@ -8,6 +8,10 @@ import RemoveDialog from './GeneralDialog'
 import { base64ToArrayBuffer } from '../bin/Utilites'
 import { strict } from 'assert';
 
+/**
+ * Page component loads and displays notes associated with it. The 
+ * notes are loaded from the web server 
+ */
 export default class Page extends Component {
     constructor(props) {
         super(props);
@@ -105,6 +109,7 @@ export default class Page extends Component {
             fd.append('user', user);
             fd.append('page', page);
 
+            // Use fetch and multipart Form Data object to add node to server
             const response = await fetch(window.location.href + 'addnote', {
                 method: 'POST',
                 body: fd
@@ -120,22 +125,18 @@ export default class Page extends Component {
         try {
             console.log('Calling get...');
 
+            // Use fetch to get notes on component loaded 
             const response = await fetch(window.location.href + 'getnotes/' + this.props.title, {
                 method: 'GET'
             });
 
-
             let notes = await response.json();
 
+            // Add notes returned from API request
             for (let n of notes) {
-
                 let fileBuffer = n.file.buffer;
-
                 let array = base64ToArrayBuffer(fileBuffer);
-                console.log('file: ' + n.file.name + ' file length: ' + array.length);
-
                 let b = new Blob([array], { type: n.file.type });
-                console.log('Blob: ' + b);
                 this.addNote(n.title, n.desc, b, n._id);
             }
 
