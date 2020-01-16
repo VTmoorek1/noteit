@@ -19,7 +19,9 @@ export default class App extends Component {
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-2">
-                        
+                        { // future enhanchement
+                            <PageMenu />
+                        }
                     </div>
                     <div className="col-9">
                         {page}
