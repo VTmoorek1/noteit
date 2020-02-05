@@ -17,18 +17,24 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Send the notes based on page
-app.get('/getnotes/:id', async (req,res) => {
-    
-    let pageID = req.params.id;
-    let notes = await dbHandler.retrieveNotes(pageID);
-    res.json(notes);
-    res.end();
+app.get('/getnotes/:id', async (req, res) => {
+
+    try {
+        let pageID = req.params.id;
+        let notes = await dbHandler.retrieveNotes(pageID);
+        res.json(notes);
+        res.end();
+
+    } catch (err) {
+        console.log(err);
+    }
 });
 
+
 // Delete note endpoint
-app.delete('/removenote/:id',async (req,res) => {
-    
-    const noteID = req.params.id;  
+app.delete('/removenote/:id', async (req, res) => {
+
+    const noteID = req.params.id;
     console.log(await dbHandler.removeNote(noteID));
 
     res.status(204).end();
@@ -39,7 +45,7 @@ app.post('/addnote', upload.single('file'), async (req, res) => {
 
     let result = 'Note Added.';
 
-    try {        
+    try {
 
         console.log(req.file.buffer.length);
 
@@ -48,12 +54,12 @@ app.post('/addnote', upload.single('file'), async (req, res) => {
             title: req.body.title,
             desc: req.body.desc,
             user: req.body.user,
-            page : req.body.page,
+            page: req.body.page,
             file: {
-                name : req.file.originalname,
-                type : req.file.mimetype,
-                size : req.file.size,
-                buffer : req.file.buffer
+                name: req.file.originalname,
+                type: req.file.mimetype,
+                size: req.file.size,
+                buffer: req.file.buffer
             }
         };
 
@@ -62,7 +68,55 @@ app.post('/addnote', upload.single('file'), async (req, res) => {
     } catch (err) {
         result = 'Error adding note: ' + err;
     }
-    
+
+    res.end(result);
+
+});
+
+// Find if a page exist 
+app.get('/findpage/:pageName', async (req, res) => {
+
+    try {
+        let exists = await dbHandler.findPage(req.params.pageName);
+        res.json({'exists' : exists});
+        res.end();
+
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+// Send the pages
+app.get('/getpages', async (req, res) => {
+
+    try {
+        let pages = await dbHandler.retrievePages();
+        res.json(pages);
+        res.end();
+
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+// Add page post endpoint
+app.post('/addpage/:pageName',  async (req, res) => {
+
+    let result = 'Page Added.';
+
+    try {
+
+        // Construct page object
+        let page = {
+            title: req.params.pageName,
+        };
+
+        result = await dbHandler.addPage(page);
+
+    } catch (err) {
+        result = 'Error adding page: ' + err;
+    }
+
     res.end(result);
 
 });
