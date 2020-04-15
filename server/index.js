@@ -35,8 +35,7 @@ app.get('/getnotes/:id', async (req, res) => {
 app.delete('/removenote/:id', async (req, res) => {
 
     const noteID = req.params.id;
-    console.log(await dbHandler.removeNote(noteID));
-
+    await dbHandler.removeNote(noteID);
     res.status(204).end();
 });
 
@@ -119,6 +118,13 @@ app.post('/addpage/:pageName',  async (req, res) => {
 
     res.end(result);
 
+});
+
+// Delete page endpoint
+app.delete('/removepage/:pageName', async (req, res) => {
+    const pageName = req.params.pageName;
+     await dbHandler.removePage(pageName);
+    res.status(204).end();
 });
 
 app.listen(port, () => {

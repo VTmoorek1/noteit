@@ -74,6 +74,36 @@ module.exports = (() => {
         });
     };
 
+    // Remove page and cascade delete notes
+    removePageDB = (pageName) => {
+
+        return new Promise ((resolve,reject) => {
+            try {
+                db.collection('pages').deleteOne({title : pageName}, (err,obj) => {
+                    if (err) return reject(err);
+
+                    if (obj)
+                    {
+                        db.collection('notes').deleteMany({page : pageName}, (err,obj) => {
+                            if (err) return reject(err);
+
+                            resolve(obj);
+                        });
+                    }
+                    else 
+                    {
+                        throw new Error('No page to delete.');
+                    }
+                    
+                });
+
+            } catch (err)
+            {
+                reject(err);
+            }
+        });
+    };
+
     // Get all pages
     retrievePagesDB = () => {
     
@@ -137,7 +167,8 @@ module.exports = (() => {
         removeNote : removeNoteDB,
         retrievePages : retrievePagesDB,
         addPage : addPageDB,
-        findPage : findPageDB
+        findPage : findPageDB,
+        removePage : removePageDB
     };
 
 })();

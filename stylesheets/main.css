@@ -56,7 +56,13 @@ body {
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
 }
 
+#pageMenuDiv {
+  float: left;
+}
+
 #pageMenu {
+  margin-left: 15px;
+  width: 150px;
   margin-top: 20px;
   border-radius: 15px 15px 0px 0px;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
@@ -68,10 +74,10 @@ body {
 }
 
 #pageTable tr {
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid #4d4d4d;
 }
 
-.pageCellBtn, #addPageBtn {
+#addPageBtn, .pageCellSelected, .pageCellBtn {
   width: 100%;
   height: 100%;
   border-bottom-left-radius: 0px;
@@ -81,10 +87,21 @@ body {
   border: none;
 }
 
-.pageCellBtn {
+.pageCellSelected, .pageCellBtn {
   border-radius: 0px;
-  background-color: rgba(0, 0, 0, 0);
   text-align: right;
+}
+
+.pageCellBtn {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.pageCellSelected {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.menuOptionsDiv {
+  position: fixed;
 }
 
 .circleButtons {

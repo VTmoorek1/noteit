@@ -41,9 +41,9 @@ export default class Page extends Component {
         this.setState({ showDialog: false });
     }
 
-    getDialogData(title, desc, fileInput, user = 'Kevin') {
+    async getDialogData(title, desc, fileInput, user = 'Kevin') {
         const file = fileInput.current.files[0];
-        let noteId = Page.sendNote(title, desc, file, user, this.props.title);
+        let noteId = await Page.sendNote(title, desc, file, user, this.props.title);
         this.addNote(title, desc,file , noteId);
         this.hideDialog();
     }
@@ -115,7 +115,7 @@ export default class Page extends Component {
                 body: fd
             });
 
-            return await response.text();
+            return response.text();
         } catch (err) {
             console.log('Error: ' + err);
         }
