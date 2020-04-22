@@ -49,3 +49,30 @@ GeneralDialog.propTypes = {
 GeneralDialog.defaultProps = {
     textBox : false
 }
+
+GeneralDialog.isValidEmail = (email) => {
+    return email.match(/[A-Za-z0-9]+@{1}[A-Za-z]+\.{1}[A-Za-z]{3}/g);
+}
+
+GeneralDialog.isValidPassword = (password) => {
+    return password.length > 6;
+}
+
+GeneralDialog.validationListener = () =>
+{
+    window.addEventListener('load',() => {
+
+        let forms = document.getElementsByClassName('needs-validation');
+
+        forms.filter((form) => {
+            form.addEventListener('submit', (event) => {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                  }
+
+                  form.classList.add('was-validated');
+            });
+        });
+    });
+}

@@ -6,6 +6,12 @@ body {
 .navbar a {
   font-size: 1.5em;
 }
+.navbar #loginDiv {
+  float: right;
+}
+.navbar #loginBtn {
+  margin-right: 5px;
+}
 
 .note {
   width: 100%;
@@ -21,7 +27,6 @@ body {
 #mediaDiv audio {
   width: 100%;
 }
-
 #mediaDiv video, #mediaDiv img {
   height: auto;
   width: 100%;
@@ -72,7 +77,6 @@ body {
   color: white;
   width: 100%;
 }
-
 #pageTable tr {
   border-bottom: 1px solid #4d4d4d;
 }
@@ -148,7 +152,7 @@ body {
   padding: 0px 0px 5px 5px;
 }
 
-#gdForm, .form {
+#gdForm, .signUpForm, .loginForm, .form {
   padding: 10px;
   position: absolute;
   background-color: white;
@@ -161,6 +165,10 @@ body {
 
 .form {
   width: 500px;
+}
+
+.test {
+  display: inline-block;
 }
 
 #gdForm {
@@ -181,6 +189,38 @@ body {
   z-index: 11;
 }
 
-/*# sourceMappingURL=main.css.map */
+#logInDlg, #signUpDlg {
+  text-align: center;
+}
+
+#emailTB, #passwordTB {
+  width: 300px;
+}
+
+.tbSpacing {
+  margin-bottom: 5px;
+}
+
+#loader {
+  border: 16px solid rgba(0, 0, 0, 0);
+  border-top: 16px solid lightseagreen;
+  left: 50%;
+  top: 40%;
+  position: absolute;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  animation: spin 1s linear infinite;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 /*# sourceMappingURL=main.css.map */

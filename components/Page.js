@@ -153,7 +153,7 @@ export default class Page extends Component {
             <h4 id="pageTitle">{this.props.title}</h4>
             {this.state.notes}
             {this.state.showDialog && <Dialog cancel={this.hideDialog} add={this.getDialogData} />}
-            {this.state.removeObj && <RemoveDialog okAction={()=>this.removeNote(this.state.removeObj.id)} cancelAction={this.cancelRemove}
+            {this.state.removeObj && <RemoveDialog okAction={()=>{this.removeNote(this.state.removeObj.id)}} cancelAction={this.cancelRemove}
              message={`Are you sure you want to remove ${this.state.removeObj.name}?`} />}
         </div>
     }

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Page from './Page';
 import PageMenu from './PageMenu';
+import HeadMenu from './HeadMenu';
+import Spinner from './Spinner';
 
 export default class App extends Component {
 
@@ -8,25 +10,32 @@ export default class App extends Component {
         super(props);
 
         this.state = {
-            page: null
+            page: null,
+            loading: true
         }
 
         this.pageSelected = this.pageSelected.bind(this);
         this.deletePage = this.deletePage.bind(this);
+        this.handleLoad = this.handleLoad.bind(this);
     }
 
     pageSelected(pageName) {
         this.setState({ page: <Page key={"PG" + pageName} title={pageName} /> });
     }
 
-    async deletePage(pageName){
+    async deletePage(pageName) {
         // Remove from the server
         const response = await fetch(window.location.href + 'removepage/' + pageName, {
             method: 'DELETE'
         });
 
         console.log('note removed ' + await response.text());
-        this.setState({page : null});
+        this.setState({ page: null });
+    }
+
+    handleLoad()
+    {
+        this.setState({loading : false});
     }
 
     render() {
@@ -35,9 +44,11 @@ export default class App extends Component {
         {/* Use bootstrap for 3 columns, first column to be Page menu,
             second column to be the media page, third column is spacing */}
         let main = <div id="mainApp">
+            <HeadMenu />
             <div id="pageMenuDiv">
                 {
-                    <PageMenu selectedEvent={this.pageSelected} deletePageEvent={this.deletePage} />
+                    <PageMenu pageLoad={this.handleLoad} 
+                        selectedEvent={this.pageSelected} deletePageEvent={this.deletePage} />
                 }
             </div>
             <div className="container-fluid">
@@ -49,6 +60,9 @@ export default class App extends Component {
                     </div>
                 </div>
             </div>
+
+            {this.state.loading && <Spinner />}
+                
         </div>;
 
         return main;

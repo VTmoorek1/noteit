@@ -168,6 +168,8 @@ export default class PageMenu extends Component {
                 this.addPageItem(p.title, p._id);
             }
 
+            this.props.pageLoad();
+
         } catch (err) {
             console.log('Error: ' + err);
         }

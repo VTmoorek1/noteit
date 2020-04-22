@@ -16,6 +16,24 @@ app.use(express.static(__dirname + './../'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+
+// Connect database on page load
+(async () => {
+    try {
+
+        await dbHandler.connect();
+
+        app.listen(port, () => {
+            console.log('Listening to port ' + port);
+        });
+
+
+    } catch (err) {
+        console.log(err);
+    }
+})();
+
+
 // Send the notes based on page
 app.get('/getnotes/:id', async (req, res) => {
 
@@ -77,7 +95,7 @@ app.get('/findpage/:pageName', async (req, res) => {
 
     try {
         let exists = await dbHandler.findPage(req.params.pageName);
-        res.json({'exists' : exists});
+        res.json({ 'exists': exists });
         res.end();
 
     } catch (err) {
@@ -99,7 +117,7 @@ app.get('/getpages', async (req, res) => {
 });
 
 // Add page post endpoint
-app.post('/addpage/:pageName',  async (req, res) => {
+app.post('/addpage/:pageName', async (req, res) => {
 
     let result = 'Page Added.';
 
@@ -123,10 +141,8 @@ app.post('/addpage/:pageName',  async (req, res) => {
 // Delete page endpoint
 app.delete('/removepage/:pageName', async (req, res) => {
     const pageName = req.params.pageName;
-     await dbHandler.removePage(pageName);
+    await dbHandler.removePage(pageName);
     res.status(204).end();
 });
 
-app.listen(port, () => {
-    console.log('Listening to port ' + port);
-});
+

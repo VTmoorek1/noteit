@@ -10,6 +10,14 @@ body {
     a {
         font-size : 1.5em;
     }   
+
+    #loginDiv {
+        float : right;
+    }
+
+    #loginBtn {
+        margin-right: 5px;
+    }
 }
 
 .note {
@@ -180,7 +188,19 @@ body {
 
 .form {
     @extend %form-shared;
-    width: 500px;
+    width: 500px; 
+}
+
+.loginForm {
+    @extend %form-shared;
+}
+
+.test {
+    display: inline-block;
+}
+
+.signUpForm {
+    @extend %form-shared;
 }
 
 #gdForm {
@@ -192,7 +212,7 @@ body {
     padding-top: 10px;
 }
 
-.dialog {
+%dialogBackground {
     background-color: rgba(0,0,0,0.5);
 	width: 100%;
 	height: 100%;
@@ -200,4 +220,38 @@ body {
 	left: 0;
     top: 0;
     z-index: 11;
+}
+
+.dialog {
+    @extend %dialogBackground;
+}
+
+#logInDlg, #signUpDlg {
+    text-align: center;
+}
+
+#emailTB, #passwordTB {
+    width : 300px;
+}
+
+.tbSpacing {
+    margin-bottom: 5px;
+}
+
+#loader {
+    border: 16px solid rgba(0,0,0,0);
+    border-top: 16px solid lightseagreen;
+    left: 50%;
+    top: 40%;
+    position: absolute;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    animation: spin 1s linear infinite;
+    transform : translate(-50%,-50%);
+}
+
+@keyframes spin {
+    0% {transform : rotate(0deg);}
+    100% {transform : rotate(360deg);}
 }
