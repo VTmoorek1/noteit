@@ -25,6 +25,11 @@ module.exports = {
     },
     devServer: {
         contentBase: parentDir,
-        historyApiFallback: true
-    }
+        historyApiFallback: true,
+        stats: 'errors-only'
+    },
+    watchOptions: {
+        poll: true,
+        ignored: /node_modules/
+      }
 }

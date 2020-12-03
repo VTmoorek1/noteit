@@ -16,7 +16,8 @@ export default class SignUpDialog extends Component {
             name,
             emailClass: '',
             passwordClass: '',
-            nameClass : ''
+            nameClass: '',
+            regMessage: null
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -28,43 +29,78 @@ export default class SignUpDialog extends Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    okButtonPressed(e) {
+    async okButtonPressed(e) {
         // This can only happen if valid data
         e.preventDefault();
 
         let emailCls = 'is-valid';
         let passwordCls = 'is-valid';
         let nameCls = 'is-valid';
+        let resStr = null;
         let validInput = true;
 
-        if (!GeneralDialog.isValidEmail(this.state.email)) {
-            emailCls = 'is-invalid';
-            validInput = false;
-        }
+        try {
 
-        if (!GeneralDialog.isValidPassword(this.state.password)) {
-            passwordCls = 'is-invalid';
-            validInput = false;
-        }
+            if (!GeneralDialog.isValidEmail(this.state.email)) {
+                emailCls = 'is-invalid';
+                validInput = false;
+            }
 
-        if (!this.isValidName(this.state.name)) {
-            nameCls = 'is-invalid';
-            validInput = false;
-        }
+            if (!GeneralDialog.isValidPassword(this.state.password)) {
+                passwordCls = 'is-invalid';
+                validInput = false;
+            }
 
-        if (validInput) {
-            this.props.okHandler({
-                email: this.state.email, password: this.state.password,
-                name: this.state.name
-            });
-        }
+            if (!this.isValidName(this.state.name)) {
+                nameCls = 'is-invalid';
+                validInput = false;
+            }
 
-        this.setState({ emailClass: emailCls, passwordClass: passwordCls, nameClass : nameCls });
+            if (validInput) {
+                resStr = await SignUpDialog.registerUser(this.state.email, this.state.name, this.state.password);
+            }
+
+            console.log("Register response: " + resStr);
+
+            if (resStr === 'success') {
+                this.props.okHandler({
+                    email: this.state.email, password: this.state.password,
+                    name: this.state.name
+                });
+            }
+            else {
+                this.setState({ emailClass: emailCls, passwordClass: passwordCls, nameClass: nameCls, regMessage : resStr });
+            }
+
+        } catch (err) {
+            console.log('Register Error: ' + err);
+        }
 
     }
 
-    isValidName(name)
-    {
+    static async registerUser(email, name, password) {
+        try {
+
+            // Use fetch to try and register user 
+            const response = await fetch(window.location.href + 'register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'email': email,
+                    'password': password,
+                    'name': name
+                })
+            });
+
+            return response.text();
+        } catch (err) {
+            console.log('Error: ' + err);
+        }
+    }
+
+    isValidName(name) {
         return name.match(/[A-Za-z]{3,25}/g);
     }
 
@@ -77,7 +113,7 @@ export default class SignUpDialog extends Component {
                     <div className="form-group">
                         <div>
                             <input name="name" onChange={this.handleChange} value={this.state.name} type="text"
-                                className={"form-control tbSpacing "  + this.state.nameClass} id="nameTB" placeholder="Name" required />
+                                className={"form-control tbSpacing " + this.state.nameClass} id="nameTB" placeholder="Name" required />
                             <div className="valid-feedback">
                                 Looks good!
                         </div>
@@ -102,10 +138,15 @@ export default class SignUpDialog extends Component {
                                 Looks good!
                         </div>
                             <div className="invalid-feedback">
-                            Enter a password more than 6 characters.
+                                Enter a password more than 6 characters.
                         </div>
                         </div>
                     </div>
+                    {this.state.regMessage &&
+                        <div className="registerMessage">
+                            <h4>{this.state.regMessage}</h4>
+                        </div>
+                    }
                     <div id="signUpBtnDiv">
                         <button onClick={this.okButtonPressed}
                             className="btn btn-success circleButtons" id="okBtn" type="submit"><i className="fa fa-check"></i></button>
@@ -118,6 +159,6 @@ export default class SignUpDialog extends Component {
 }
 
 SignUpDialog.propTypes = {
-    okHandler : PropTypes.func,
-    cancelHandler : PropTypes.func
+    okHandler: PropTypes.func,
+    cancelHandler: PropTypes.func
 };

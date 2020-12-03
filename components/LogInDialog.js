@@ -14,7 +14,8 @@ export default class LogInDialog extends Component {
             email: '',
             password: '',
             emailClass: '',
-            passwordClass: ''
+            passwordClass: '',
+            loginStr: null
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -26,30 +27,63 @@ export default class LogInDialog extends Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    okButtonPressed(e) {
+    async okButtonPressed(e) {
         // This can only happen if valid data
         e.preventDefault();
 
         let emailCls = 'is-valid';
         let passwordCls = 'is-valid';
         let validInput = true;
+        let loginStr = null;
 
-        if (!GeneralDialog.isValidEmail(this.state.email)) {
-            emailCls = 'is-invalid';
-            validInput = false;
+        try {
+
+            if (!GeneralDialog.isValidEmail(this.state.email)) {
+                emailCls = 'is-invalid';
+                validInput = false;
+            }
+
+            if (!GeneralDialog.isValidPassword(this.state.password)) {
+                passwordCls = 'is-invalid';
+                validInput = false;
+            }
+
+            if (validInput) {
+                loginStr = await LogInDialog.login(this.state.email, this.state.password);
+            }
+
+            if (loginStr === 'success') {
+                this.props.okHandler({ email: this.state.email, password: this.state.password });
+            }
+            else {
+                this.setState({ emailClass: emailCls, passwordClass: passwordCls, loginStr: loginStr });
+            }
+
+        } catch (err) {
+            console.log('Login Error: ' + err);
         }
 
-        if (!GeneralDialog.isValidPassword(this.state.password)) {
-            passwordCls = 'is-invalid';
-            validInput = false;
+    }
+
+    static async login(email, password) {
+        try {
+
+            // Use fetch to try and register user 
+            const response = await fetch(window.location.href + 'login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'email': email,
+                    'password': password
+                })
+            });
+
+            return response.text();
+        } catch (err) {
+            console.log('Error: ' + err);
         }
-
-        if (validInput) {
-            this.props.okHandler({ email: this.state.email, password: this.state.password });
-        }
-
-        this.setState({ emailClass: emailCls, passwordClass: passwordCls });
-
     }
 
     render() {
@@ -80,6 +114,11 @@ export default class LogInDialog extends Component {
                         </div>
                         </div>
                     </div>
+                    {this.state.loginStr &&
+                        <div className="loginMessage">
+                            <h4>{this.state.loginStr}</h4>
+                        </div>
+                    }
                     <div id="loginBtnDiv">
                         <button onClick={this.okButtonPressed}
                             className="btn btn-success circleButtons" id="okBtn" type="submit"><i className="fa fa-check"></i></button>
@@ -92,7 +131,7 @@ export default class LogInDialog extends Component {
 }
 
 LogInDialog.propTypes = {
-    okHandler : PropTypes.func,
-    cancelHandler : PropTypes.func
+    okHandler: PropTypes.func,
+    cancelHandler: PropTypes.func
 };
 
