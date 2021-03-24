@@ -163,6 +163,65 @@ module.exports = (() => {
         });
     }
 
+    // Find a user based on email
+    findUser = (email) => {
+
+        return new Promise((resolve, reject) => {
+
+            try {
+                db.collection('users').findOne({ email: email }, (err, user) => {
+                    if (err) return reject(err);
+
+                    resolve(user);
+                });
+
+            } catch (err) {
+                reject(err);
+            }
+
+        })
+    };
+
+    // Find a user by _id
+    findUserById = (id) => {
+
+        return new Promise((resolve, reject) => {
+
+            try {
+                db.collection('users').findOne(ObjectId(id), async (err, user) => {
+                    if (err) return reject(err);
+
+                    const userObj = await user;
+
+                    console.log(userObj);
+                    resolve(userObj);
+                });
+
+            } catch (err) {
+                reject(err);
+            }
+
+        });
+    };
+
+    // Add user object to db
+    addUser = (user) => {
+
+        return new Promise((resolve, reject) => {
+
+            try {
+                db.collection('users').insertOne(user, (err, result) => {
+                    if (err) throw reject(err);
+
+                    resolve(result.insertedId.toString());
+                });
+
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }
+
     return {
         addNote: addNoteDB,
         retrieveNotes: retrieveNotesDB,
@@ -171,7 +230,10 @@ module.exports = (() => {
         addPage: addPageDB,
         findPage: findPageDB,
         removePage: removePageDB,
-        connect : connectToDB
+        connect : connectToDB,
+        findUser : findUser,
+        findUserById : findUserById,
+        addUser : addUser
     };
 
 })();

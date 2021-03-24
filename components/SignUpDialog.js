@@ -65,7 +65,7 @@ export default class SignUpDialog extends Component {
             if (resStr === 'success') {
                 this.props.okHandler({
                     email: this.state.email, password: this.state.password,
-                    name: this.state.name
+                    name: this.state.name, isSignup : true
                 });
             }
             else {
@@ -150,7 +150,8 @@ export default class SignUpDialog extends Component {
                     <div id="signUpBtnDiv">
                         <button onClick={this.okButtonPressed}
                             className="btn btn-success circleButtons" id="okBtn" type="submit"><i className="fa fa-check"></i></button>
-                        <button name="signUpBTN" onClick={this.props.cancelHandler} className="btn btn-danger circleButtons" id="cancelBtn" type="button"><i className="fa fa-times"></i></button>
+                        <button name="signUpBTN" onClick={this.props.cancelHandler} className="btn btn-danger circleButtons" id="signUpCancelBtn" 
+                            type="button"><i className="fa fa-times" id="signUpCancelIcon"></i></button>
                     </div>
                 </form>
             </div>

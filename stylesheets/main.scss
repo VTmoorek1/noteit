@@ -13,11 +13,17 @@ body {
 
     #loginDiv {
         float : right;
+        text-align: center;
     }
 
     #loginBtn {
         margin-right: 5px;
     }
+}
+
+#menuIcon
+{
+    padding-right: 5px;
 }
 
 .note {
@@ -52,10 +58,26 @@ body {
     max-width: 100%;
 }
 
-#titleDiv {
+#titleDiv, #userNameDiv {
     margin-left : 20px;
     margin-bottom : 20px;
     float : left;
+}
+
+
+#userDiv,#userIconDiv  {
+    float : left;
+    color : white;
+    display: flex;
+    justify-content: center;
+
+    #userIcon {
+        padding-right : 3px;
+    }
+}
+
+#userName {
+    margin : auto;
 }
 
 #topBtnDiv {
@@ -64,7 +86,7 @@ body {
     margin-right: -5px;
 }
 
-#userImg
+.userImg
 {
     float: left;
     width : 40px;

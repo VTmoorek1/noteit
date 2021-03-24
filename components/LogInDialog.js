@@ -52,8 +52,9 @@ export default class LogInDialog extends Component {
                 loginStr = await LogInDialog.login(this.state.email, this.state.password);
             }
 
-            if (loginStr === 'success') {
-                this.props.okHandler({ email: this.state.email, password: this.state.password });
+            if (loginStr.startsWith('success')) {
+                this.props.okHandler({ email: this.state.email, password: this.state.password, name : loginStr.replace('success ',''),
+                    isSignup : false });
             }
             else {
                 this.setState({ emailClass: emailCls, passwordClass: passwordCls, loginStr: loginStr });
@@ -69,7 +70,7 @@ export default class LogInDialog extends Component {
         try {
 
             // Use fetch to try and register user 
-            const response = await fetch(window.location.href + 'login', {
+            const response = await fetch(window.location.href + 'auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

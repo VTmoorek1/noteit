@@ -5,31 +5,11 @@ const fs = require('fs');
 const dotenv = require('dotenv');
 const app = express();
 const dbHandler = require('./datahandler');
-const passport = require('passport');
-const flash = require('express-flash');
-const session = require('express-session');
 const bcrypt = require('bcrypt');
+const authRoute = require('./auth');
 
 dotenv.config();
 const port = process.env.PORT;
-
-// Passport login config
-const users = [];
-const initPassport = require('./passport-config');
-initPassport(
-    passport,
-    email => users.find(user => user.email === email),
-    id => users.find(user => user.id === id)
-);
-
-app.use(flash());
-app.use(session({
-    secret: process.env.SESH_SECRET,
-    resave: false,
-    saveUninitialized: false
-}));
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use(express.static(__dirname + './../'));
 
@@ -42,36 +22,20 @@ app.use(bodyParser.json());
     try {
 
         await dbHandler.connect();
+        
+        // Passport login config
+        authRoute.initAuthentication(dbHandler);
 
         app.listen(port, () => {
             console.log('Listening to port ' + port);
         });
-
 
     } catch (err) {
         console.log(err);
     }
 })();
 
-app.get('/loginSuccess', async (req, res) => {
-
-    console.log('Login Success');
-    res.end('success');
-});
-
-app.get('/loginFail', async (req, res) => {
-
-    const errorMsg = req.flash('error');
-    console.log('Login Fail: ' + errorMsg[0]);
-    res.end(errorMsg[0]);
-});
-
-// Login endpoint
-app.post('/login', passport.authenticate('local', {
-    successRedirect: '/loginSuccess',
-    failureRedirect: '/loginFail',
-    failureFlash: true
-}));
+app.use('/auth',authRoute.route);
 
 // Register a user
 app.post('/register', async (req, res) => {
@@ -81,20 +45,21 @@ app.post('/register', async (req, res) => {
     try {
 
         // Check if name or email exists already
-        console.log(req.body);
-
         const name = req.body.name;
-        const email = req.body.email; 
+        const email = req.body.email;
+        const user = await dbHandler.findUser(email);
 
-        if (users.find(user => user.email === email)) {
+        console.log('User registered: ' + user);
+
+        if (user !== null) {
             result = 'Email is already registered.'; 
         }
 
         if (result === 'success') {
             const hashed = await bcrypt.hash(req.body.password, 10);
 
-            users.push({
-                id: Date.now.toString,
+            // Add user to db
+            await dbHandler.addUser({
                 'name': name,
                 'email': email,
                 password: hashed
@@ -106,7 +71,6 @@ app.post('/register', async (req, res) => {
         result = err;
     }
 
-    console.log('Registered users: ' + users);
     console.log('Register result: ' + result);
     res.end(result);
 
@@ -223,27 +187,6 @@ app.delete('/removepage/:pageName', async (req, res) => {
     res.status(204).end();
 });
 
-app.delete('/logout', (req, res) => {
-    req.logOut();
 
-    // change
-    res.redirect('/login');
-});
-
-function checkAuth(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-
-    res.redirect('/login');
-}
-
-function checkLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return res.redirect('/');
-    }
-
-    next();
-}
 
 
