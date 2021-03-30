@@ -1,0 +1,30 @@
+#userNameDiv {
+  margin-left: 20px;
+  margin-bottom: 20px;
+  float: left;
+}
+
+#userDiv, #userIconDiv {
+  float: left;
+  color: white;
+  display: flex;
+  justify-content: center;
+  padding-right: 5px;
+}
+#userDiv #userIcon, #userIconDiv #userIcon {
+  padding-right: 3px;
+}
+
+#userName {
+  margin: auto;
+}
+
+.userImg {
+  float: left;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+/*# sourceMappingURL=user.css.map */

@@ -25,7 +25,7 @@ export default class App extends Component {
 
     async deletePage(pageName) {
         // Remove from the server
-        const response = await fetch(window.location.href + 'removepage/' + pageName, {
+        const response = await fetch(window.location.href + 'page/removepage/' + pageName, {
             method: 'DELETE'
         });
 

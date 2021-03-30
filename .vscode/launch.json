@@ -8,14 +8,20 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\Server\\index.js"
+            "program": "${workspaceFolder}\\Server\\index.js",
+            "runtimeExecutable": "C:\\Users\\KMM\\AppData\\Local\\Packages\\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\\LocalState\\rootfs"
         },
         {
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome",
             "url" : "http://localhost:3000",
-            "webRoot": "${workspaceFolder}"
-        }
-    ]
-}
+            "webRoot": "${workspaceFolder}",
+            "sourceMaps": true,
+            "skipFiles": [
+                "${workspaceRoot}/node_modules/**/*.js",
+                "<node_internals>/**/*.js"
+            ],
+      "smartStep": true
+            
+}]

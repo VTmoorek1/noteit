@@ -62,7 +62,7 @@ export default class SignUpDialog extends Component {
 
             console.log("Register response: " + resStr);
 
-            if (resStr === 'success') {
+            if (resStr.startsWith('success')) {
                 this.props.okHandler({
                     email: this.state.email, password: this.state.password,
                     name: this.state.name, isSignup : true
@@ -82,7 +82,7 @@ export default class SignUpDialog extends Component {
         try {
 
             // Use fetch to try and register user 
-            const response = await fetch(window.location.href + 'register', {
+            const response = await fetch(window.location.href + 'auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

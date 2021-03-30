@@ -32,9 +32,9 @@ export default class HeadMenu extends Component {
         this.setState({loggedInName : null});
     }
 
-    loginClicked(e) {
+    loginClicked(e) {   
 
-        let dlgObj = { showLoginDlg: true };
+        let dlgObj = { showLoginDlg: true };    
 
         if (e.target.name === 'signup') {
             dlgObj = { showSignupDlg: true };

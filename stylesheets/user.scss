@@ -1,0 +1,33 @@
+@use 'common';
+
+#userNameDiv {
+    margin-left : 20px;
+    margin-bottom : 20px;
+    float : left;
+}
+
+#userDiv,#userIconDiv  {
+    float : left;
+    color : white;
+    display: flex;
+    justify-content: center;
+    padding-right: 5px;
+
+    #userIcon {
+        padding-right : 3px;
+    }
+}
+
+#userName {
+    margin : auto;
+}
+
+.userImg
+{
+    float: left;
+    width : 40px;
+    height : 40px;
+    border-radius: 20px;
+    box-shadow: common.$smallShadow;
+}
+

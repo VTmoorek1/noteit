@@ -121,7 +121,7 @@ export default class PageMenu extends Component {
     async okAddPage(pageName) {
 
         // Check first to see if page exists
-        const pageRes = await fetch(window.location.href + "findpage/" + pageName, {
+        const pageRes = await fetch(window.location.href + "page/findpage/" + pageName, {
             method: 'GET'
         });
 
@@ -130,7 +130,7 @@ export default class PageMenu extends Component {
         if (!pageObj.exists) {
 
             // Add page on server
-            const response = await fetch(window.location.href + "addpage/" + pageName, {
+            const response = await fetch(window.location.href + "page/addpage/" + pageName, {
                 method: 'POST'
             });
 
@@ -157,7 +157,7 @@ export default class PageMenu extends Component {
             document.addEventListener('mousedown',this.handleGlobalClick,false);
 
             // Use fetch to get pages for menu on component loaded 
-            const response = await fetch(window.location.href + 'getpages', {
+            const response = await fetch(window.location.href + 'page/getpages', {
                 method: 'GET'
             });
 

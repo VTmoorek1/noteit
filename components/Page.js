@@ -82,7 +82,7 @@ export default class Page extends Component {
             this.setState({ notes: noteArr });
 
             // Now remove from the server
-            const response = await fetch(window.location.href + 'removenote/' + id, {
+            const response = await fetch(window.location.href + 'note/removenote/' + id, {
                 method: 'DELETE'
             });
 
@@ -110,7 +110,7 @@ export default class Page extends Component {
             fd.append('page', page);
 
             // Use fetch and multipart Form Data object to add node to server
-            const response = await fetch(window.location.href + 'addnote', {
+            const response = await fetch(window.location.href + 'note/addnote', {
                 method: 'POST',
                 body: fd
             });
@@ -126,7 +126,7 @@ export default class Page extends Component {
             console.log('Calling get...');
 
             // Use fetch to get notes on component loaded 
-            const response = await fetch(window.location.href + 'getnotes/' + this.props.title, {
+            const response = await fetch(window.location.href + 'note/getnotes/' + this.props.title, {
                 method: 'GET'
             });
 

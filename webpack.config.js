@@ -15,6 +15,10 @@ module.exports = {
             },{
                 test: /\.less$/,
                 loaders: ["style-loader", "css-loader", "less-loader"]
+            },
+            {
+                test: /\.css$/,
+                loaders: ["style-loader", "css-loader"]
             }
         ]
     },
@@ -31,5 +35,6 @@ module.exports = {
     watchOptions: {
         poll: true,
         ignored: /node_modules/
-      }
+      },
+      "devtool": "eval-source-map"
 }
