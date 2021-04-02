@@ -1,2 +1,29 @@
 $standardShadow: 0px 0px 5px 4px rgba(0,0,0,0.75);
 $smallShadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+
+%form-shared {
+    padding: 10px;
+    position : absolute;
+    background-color: white;
+    left: 50%;
+    top: 40%;
+    border-radius: 15px;
+    transform : translate(-50%,-50%);
+    box-shadow: $standardShadow;
+}
+
+%commonPageCell {
+    width: 100%;
+    height: 100%;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border: none;
+}
+
+%commonPageCellEx {
+    @extend %commonPageCell;
+    border-radius: 0px;
+    text-align: right;
+}

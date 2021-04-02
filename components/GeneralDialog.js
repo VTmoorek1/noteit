@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import '../stylesheets/generaldialog.css';
 
 /**
  * General use dialog. Can set message and ok and cancel action events

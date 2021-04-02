@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Utilites from '../bin/Utilites';
+import '../stylesheets/media.css';
 
 /**
  * Container for media which can be a video, audio, or image

@@ -1,0 +1,11 @@
+@use 'common.scss';
+
+.pageCellBtn  {
+    @extend %commonPageCellEx;
+    background-color: rgba(0,0,0,0);
+}
+
+.pageCellSelected {
+    @extend %commonPageCellEx;
+    background-color: rgb(255, 255, 255,.3);
+}

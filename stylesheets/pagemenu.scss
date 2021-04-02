@@ -1,0 +1,26 @@
+@use 'common.scss';
+
+#pageMenu {
+    margin-left : 15px;
+    width : 150px;
+    margin-top: 20px;
+    border-radius: 15px 15px 0px 0px;
+    box-shadow: common.$smallShadow;
+}
+
+#pageTable {
+    color: white;
+    width: 100%;
+    
+    tr {
+        border-bottom: 1px solid rgb(77, 77, 77);
+    }
+}
+
+#addPageBtn {
+    @extend %commonPageCell;
+}
+
+.menuOptionsDiv {
+    position: fixed;
+}

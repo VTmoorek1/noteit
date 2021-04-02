@@ -1,0 +1,9 @@
+#mediaDiv audio {
+  width: 100%;
+}
+#mediaDiv video, #mediaDiv img {
+  height: auto;
+  width: 100%;
+}
+
+/*# sourceMappingURL=media.css.map */

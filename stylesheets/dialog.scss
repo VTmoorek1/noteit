@@ -1,0 +1,15 @@
+@use 'common.scss';
+
+#dBtnDiv {
+    display : block;
+    float : right;
+}
+
+.custom-file {
+    margin-bottom: 1rem;
+}
+
+.form {
+    @extend %form-shared;
+    width: 500px; 
+}

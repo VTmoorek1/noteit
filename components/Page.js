@@ -7,6 +7,7 @@ import Dialog from './Dialog';
 import RemoveDialog from './GeneralDialog'
 import { base64ToArrayBuffer } from '../bin/Utilites'
 import { strict } from 'assert';
+import '../stylesheets/page.css';
 
 /**
  * Page component loads and displays notes associated with it. The 

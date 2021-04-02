@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import '../stylesheets/spinner.css';
+import '../stylesheets/generaldialog.css';
 
 export default class Spinner extends Component {
 

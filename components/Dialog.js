@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import '../stylesheets/dialog.css'
+import '../stylesheets/generaldialog.css';
 
 
 /**
@@ -62,3 +65,8 @@ export default class Dialog extends Component {
         </div>;
     }
 }
+
+Dialog.propTypes = {
+    add: PropTypes.func,
+    cancel: PropTypes.func
+};

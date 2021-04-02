@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import LogInDialog from './LogInDialog';
 import SignUpDialog from './SignUpDialog';
 import User from './User';
+import '../stylesheets/headmenu.css';
 
 export default class HeadMenu extends Component {
 

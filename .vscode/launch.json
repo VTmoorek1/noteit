@@ -8,8 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\Server\\index.js",
-            "runtimeExecutable": "C:\\Users\\KMM\\AppData\\Local\\Packages\\CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc\\LocalState\\rootfs"
+            "program": "${workspaceFolder}\\server\\index.js"
         },
         {
             "type": "chrome",
@@ -25,3 +24,4 @@
       "smartStep": true
             
 }]
+        }

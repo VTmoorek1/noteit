@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import '../stylesheets/pagemenuitem.css';
 
 /**
  * Each item in the page menu

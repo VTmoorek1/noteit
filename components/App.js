@@ -3,6 +3,7 @@ import Page from './Page';
 import PageMenu from './PageMenu';
 import HeadMenu from './HeadMenu';
 import Spinner from './Spinner';
+import '../stylesheets/main.css';
 
 export default class App extends Component {
 

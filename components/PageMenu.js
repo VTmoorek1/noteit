@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import GeneralDialog from './GeneralDialog';
 import PageMenuItem from './PageMenuItem';
 import PropTypes from 'prop-types';
+import '../stylesheets/pagemenu.css';
 
 /**
  * Page Menu will load page items and selected page. Future enhancement.
@@ -207,3 +208,9 @@ export default class PageMenu extends Component {
     }
 
 }
+
+PageMenu.propTypes = {
+    pageLoad : PropTypes.func.isRequired,
+    deletePageEvent : PropTypes.func.isRequired,
+    selectedEvent : PropTypes.func.isRequired
+};

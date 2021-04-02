@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Media from './Media';
+import '../stylesheets/note.css';
 
 /**
  * Note is a container for a user (future enhancement), title, 

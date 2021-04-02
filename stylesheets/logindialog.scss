@@ -1,0 +1,9 @@
+@use 'common.scss';
+
+.loginForm {
+    @extend %form-shared;
+}
+
+.tbSpacing {
+    margin-bottom: 5px;
+}

@@ -1,0 +1,25 @@
+.form {
+  padding: 10px;
+  position: absolute;
+  background-color: white;
+  left: 50%;
+  top: 40%;
+  border-radius: 15px;
+  transform: translate(-50%, -50%);
+  box-shadow: 0px 0px 5px 4px rgba(0, 0, 0, 0.75);
+}
+
+#dBtnDiv {
+  display: block;
+  float: right;
+}
+
+.custom-file {
+  margin-bottom: 1rem;
+}
+
+.form {
+  width: 500px;
+}
+
+/*# sourceMappingURL=dialog.css.map */

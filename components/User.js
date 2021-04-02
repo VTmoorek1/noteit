@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import '../stylesheets/user.css'
+import PropTypes from 'prop-types';
+import '../stylesheets/user.css';
+
 
 export default class User extends Component {
 
@@ -23,3 +25,7 @@ export default class User extends Component {
         return main;
     }
 }
+
+User.propTypes = {
+    name : PropTypes.string.isRequired
+};

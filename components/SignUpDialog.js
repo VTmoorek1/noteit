@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import GeneralDialog from './GeneralDialog';
 import PropTypes from 'prop-types';
+import '../stylesheets/generaldialog.css';
 
 /**
  * Dialog class handles sign up

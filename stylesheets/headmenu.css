@@ -1,0 +1,16 @@
+#menuIcon {
+  padding-right: 5px;
+}
+
+.navbar a {
+  font-size: 1.5em;
+}
+.navbar #loginDiv {
+  float: right;
+  text-align: center;
+}
+.navbar #loginBtn {
+  margin-right: 5px;
+}
+
+/*# sourceMappingURL=headmenu.css.map */

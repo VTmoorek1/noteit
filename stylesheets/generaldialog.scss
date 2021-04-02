@@ -1,0 +1,51 @@
+@use 'common.scss';
+
+%dialogBackground {
+    background-color: rgba(0,0,0,0.5);
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	left: 0;
+    top: 0;
+    z-index: 11;
+}
+
+.dialog {
+    @extend %dialogBackground;
+}
+
+
+#okBtn {
+    margin-right : 5px;
+}
+
+.circleButtons {
+    border-radius: 15px;
+    width : 30px;
+    height : 30px;
+    text-align: center;
+    padding : 6px 0px;
+    font-size: 15px;
+    line-height: 1;
+}
+
+#gdForm {
+    @extend %form-shared;
+    text-align: center;
+}
+
+#gdBtnDiv {
+    padding-top: 10px;
+}
+
+#logInDlg, #signUpDlg {
+    text-align: center;
+}
+
+#emailTB, #passwordTB {
+    width : 300px;
+}
+
+.signUpForm {
+    @extend %form-shared;
+}
