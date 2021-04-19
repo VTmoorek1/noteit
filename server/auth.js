@@ -5,9 +5,9 @@ const flash = require('express-flash');
 const session = require('express-session');
 const initPassport = require('./passport-config');
 const bcrypt = require('bcryptjs');
+const dbHandler = require('./datahandler');
 
-
-init = (dbHandler) => {
+init = () => {
 
     authRouter.use(flash());
     authRouter.use(session({

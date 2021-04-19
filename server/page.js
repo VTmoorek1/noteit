@@ -1,7 +1,8 @@
 const express = require('express');
 const pageRouter = express.Router();
+const dbHandler = require('./datahandler');
 
-init = (dbHandler) => {
+init = () => {
 
     // Find if a page exist 
     pageRouter.get('/findpage/:pageName', async (req, res) => {

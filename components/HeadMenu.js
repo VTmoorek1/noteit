@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import LogInDialog from './LogInDialog';
-import SignUpDialog from './SignUpDialog';
 import User from './User';
 import '../stylesheets/headmenu.css';
+import LoginDialogContainer from '../containers/LoginDialogContainer';
+import SignupDialogContainer from '../containers/SignupDialogContainer';
 
 export default class HeadMenu extends Component {
 
@@ -87,8 +87,8 @@ export default class HeadMenu extends Component {
                 </div>
             </nav>
 
-            {this.state.showLoginDlg && <LogInDialog okHandler={this.okLogin} cancelHandler={this.cancelLogin} />}
-            {this.state.showSignupDlg && <SignUpDialog okHandler={this.okLogin} cancelHandler={this.cancelLogin} />}
+            {this.state.showLoginDlg && <LoginDialogContainer okHandler={this.okLogin} cancelHandler={this.cancelLogin} />}
+            {this.state.showSignupDlg && <SignupDialogContainer okHandler={this.okLogin} cancelHandler={this.cancelLogin} />}
         </div>;
 
         return main;

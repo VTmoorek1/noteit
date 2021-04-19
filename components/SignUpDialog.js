@@ -17,8 +17,7 @@ export default class SignUpDialog extends Component {
             name,
             emailClass: '',
             passwordClass: '',
-            nameClass: '',
-            regMessage: null
+            nameClass: ''
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -37,7 +36,7 @@ export default class SignUpDialog extends Component {
         let emailCls = 'is-valid';
         let passwordCls = 'is-valid';
         let nameCls = 'is-valid';
-        let resStr = null;
+        let resStr = '';
         let validInput = true;
 
         try {
@@ -58,7 +57,7 @@ export default class SignUpDialog extends Component {
             }
 
             if (validInput) {
-                resStr = await SignUpDialog.registerUser(this.state.email, this.state.name, this.state.password);
+                resStr = await this.props.registerUser(this.state.email, this.state.name, this.state.password);
             }
 
             console.log("Register response: " + resStr);
@@ -77,28 +76,6 @@ export default class SignUpDialog extends Component {
             console.log('Register Error: ' + err);
         }
 
-    }
-
-    static async registerUser(email, name, password) {
-        try {
-
-            // Use fetch to try and register user 
-            const response = await fetch(window.location.href + 'auth/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    'email': email,
-                    'password': password,
-                    'name': name
-                })
-            });
-
-            return response.text();
-        } catch (err) {
-            console.log('Error: ' + err);
-        }
     }
 
     isValidName(name) {
@@ -143,9 +120,9 @@ export default class SignUpDialog extends Component {
                         </div>
                         </div>
                     </div>
-                    {this.state.regMessage &&
+                    {this.props.regMessage &&
                         <div className="registerMessage">
-                            <h4>{this.state.regMessage}</h4>
+                            <h4>{this.props.regMessage}</h4>
                         </div>
                     }
                     <div id="signUpBtnDiv">

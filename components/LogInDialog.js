@@ -17,7 +17,6 @@ export default class LogInDialog extends Component {
             password: '',
             emailClass: '',
             passwordClass: '',
-            loginStr: null
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -36,7 +35,7 @@ export default class LogInDialog extends Component {
         let emailCls = 'is-valid';
         let passwordCls = 'is-valid';
         let validInput = true;
-        let loginStr = null;
+        let loginStr = '';
 
         try {
 
@@ -51,7 +50,7 @@ export default class LogInDialog extends Component {
             }
 
             if (validInput) {
-                loginStr = await LogInDialog.login(this.state.email, this.state.password);
+                loginStr = await this.props.login(this.state.email, this.state.password);
             }
 
             if (loginStr.startsWith('success')) {
@@ -59,34 +58,13 @@ export default class LogInDialog extends Component {
                     isSignup : false });
             }
             else {
-                this.setState({ emailClass: emailCls, passwordClass: passwordCls, loginStr: loginStr });
+                this.setState({ emailClass: emailCls, passwordClass: passwordCls});
             }
 
         } catch (err) {
             console.log('Login Error: ' + err);
         }
 
-    }
-
-    static async login(email, password) {
-        try {
-
-            // Use fetch to try and register user 
-            const response = await fetch(window.location.href + 'auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    'email': email,
-                    'password': password
-                })
-            });
-
-            return response.text();
-        } catch (err) {
-            console.log('Error: ' + err);
-        }
     }
 
     render() {
@@ -117,9 +95,9 @@ export default class LogInDialog extends Component {
                         </div>
                         </div>
                     </div>
-                    {this.state.loginStr &&
+                    {this.props.loginStr &&
                         <div className="loginMessage">
-                            <h4>{this.state.loginStr}</h4>
+                            <h4>{this.props.loginStr}</h4>
                         </div>
                     }
                     <div id="loginBtnDiv">

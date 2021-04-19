@@ -3,11 +3,14 @@ dotenv.config();
 const url = process.env.DB_URL;
 const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
-let db = null;
 
-module.exports = (() => {
 
-    connectToDB = () => {
+module.exports = (()=>{
+
+    let db = null;
+    let dbClient = null;
+
+    const connectToDB = () => {
 
         // Connect to mongodb, happens on server start
         return new Promise((resolve, reject) => {
@@ -16,9 +19,8 @@ module.exports = (() => {
             }, (err, client) => {
                 if (err) return reject(err);
 
-                console.log('success');
-
-                db = client.db('noteit');
+                dbClient = client;
+                db = dbClient.db('noteit');
 
                 resolve();
             });
@@ -27,7 +29,7 @@ module.exports = (() => {
     }
 
     // Add note object to db
-    addNoteDB = (note) => {
+    const addNoteDB = note => {
 
         return new Promise((resolve, reject) => {
 
@@ -45,7 +47,7 @@ module.exports = (() => {
     }
 
     // Get all notes from DB based on the current page
-    retrieveNotesDB = (pageID) => {
+    const retrieveNotesDB = pageID => {
 
         return new Promise((resolve, reject) => {
 
@@ -61,14 +63,14 @@ module.exports = (() => {
             }
 
         })
-    };
+    }
 
     // Remove note from DB based on the current note
-    removeNoteDB = (noteID) => {
+    const removeNoteDB = noteID => {
 
         return new Promise((resolve, reject) => {
             try {
-                db.collection('notes').deleteOne({ _id: ObjectId(noteID) }, (err, obj) => {
+                db.collection('notes').deleteOne({ _id: new ObjectId(noteID) }, (err, obj) => {
                     if (err) return reject(err);
 
                     resolve(obj);
@@ -78,21 +80,21 @@ module.exports = (() => {
                 reject(err);
             }
         });
-    };
+    }
 
     // Remove page and cascade delete notes
-    removePageDB = (pageName) => {
+    const removePageDB = pageName => {
 
         return new Promise((resolve, reject) => {
             try {
-                db.collection('pages').deleteOne({ title: pageName }, (err, obj) => {
+                db.collection('pages').deleteOne({ title: pageName }, (err, pageObj) => {
                     if (err) return reject(err);
 
-                    if (obj) {
+                    if (pageObj) {
                         db.collection('notes').deleteMany({ page: pageName }, (err, obj) => {
                             if (err) return reject(err);
 
-                            resolve(obj);
+                            resolve(pageObj);
                         });
                     }
                     else {
@@ -105,10 +107,10 @@ module.exports = (() => {
                 reject(err);
             }
         });
-    };
+    }
 
     // Get all pages
-    retrievePagesDB = () => {
+    const retrievePagesDB = () => {
 
         return new Promise((resolve, reject) => {
 
@@ -124,10 +126,10 @@ module.exports = (() => {
             }
 
         })
-    };
+    }
 
     // Find a page
-    findPageDB = (pageName) => {
+    const findPageDB = pageName => {
 
         return new Promise((resolve, reject) => {
 
@@ -143,10 +145,10 @@ module.exports = (() => {
             }
 
         })
-    };
+    }
 
     // Add page object to db
-    addPageDB = (page) => {
+    const addPageDB = page => {
 
         return new Promise((resolve, reject) => {
 
@@ -164,7 +166,7 @@ module.exports = (() => {
     }
 
     // Find a user based on email
-    findUser = (email) => {
+    const findUser = email => {
 
         return new Promise((resolve, reject) => {
 
@@ -180,10 +182,10 @@ module.exports = (() => {
             }
 
         })
-    };
+    }
 
     // Find a user by _id
-    findUserById = (id) => {
+    const findUserById = id => {
 
         return new Promise((resolve, reject) => {
 
@@ -192,8 +194,6 @@ module.exports = (() => {
                     if (err) return reject(err);
 
                     const userObj = await user;
-
-                    console.log(userObj);
                     resolve(userObj);
                 });
 
@@ -202,10 +202,10 @@ module.exports = (() => {
             }
 
         });
-    };
+    }
 
     // Add user object to db
-    addUser = (user) => {
+    const addUser = user => {
 
         return new Promise((resolve, reject) => {
 
@@ -222,6 +222,31 @@ module.exports = (() => {
         });
     }
 
+    // Remove user from DB based on email
+    const removeUserDB = email => {
+
+        return new Promise((resolve, reject) => {
+            try {
+                db.collection('users').deleteOne({ email : email}, (err, obj) => {
+                    if (err) return reject(err);
+
+                    resolve(obj);
+                });
+
+            } catch (err) {
+                reject(err);
+            }
+        });
+    }
+
+    const close = () => dbClient.close();
+
+    const isConnected = () => dbClient.isConnected();
+
+    const getClient = () => dbClient;
+
+    const getCheck = () => check;
+
     return {
         addNote: addNoteDB,
         retrieveNotes: retrieveNotesDB,
@@ -233,7 +258,11 @@ module.exports = (() => {
         connect : connectToDB,
         findUser : findUser,
         findUserById : findUserById,
-        addUser : addUser
+        addUser : addUser,
+        removeUser : removeUserDB,
+        close : close,
+        isConnected : isConnected,
+        getClient : getClient
     };
 
 })();

@@ -1,15 +1,16 @@
 const express = require('express');
 const noteRouter = express.Router();
 const upload = require('multer')();
-//const fs = require('fs');
+const dbHandler = require('./datahandler');
 
 
-init = (dbHandler) => {
+const init = () => {
 
     // Send the notes based on page
     noteRouter.get('/getnotes/:id', async (req, res) => {
 
         try {
+
             let pageID = req.params.id;
             let notes = await dbHandler.retrieveNotes(pageID);
             res.json(notes);
@@ -35,8 +36,6 @@ init = (dbHandler) => {
         let result = 'Note Added.';
 
         try {
-
-            console.log(req.file.buffer.length);
 
             // Construct note object
             let note = {

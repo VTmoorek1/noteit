@@ -19,17 +19,16 @@ app.use(bodyParser.json());
 // Connect database on startup
 (async () => {
     try {
-
         await dbHandler.connect();
 
         // Passport login config
-        authRoute = authRoute(dbHandler);
+        authRoute = authRoute();
 
         // Setup note route
-        noteRoute = noteRoute(dbHandler);
+        noteRoute = noteRoute();
 
         // Setup page route
-        pageRoute = pageRoute(dbHandler);
+        pageRoute = pageRoute();
 
         useRoutes();
 

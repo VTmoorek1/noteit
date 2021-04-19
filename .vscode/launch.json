@@ -14,14 +14,31 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome",
-            "url" : "http://localhost:3000",
+            "url": "http://localhost:3000",
             "webRoot": "${workspaceFolder}",
             "sourceMaps": true,
             "skipFiles": [
                 "${workspaceRoot}/node_modules/**/*.js",
                 "<node_internals>/**/*.js"
             ],
-      "smartStep": true
-            
-}]
+            "smartStep": true
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Jest Tests",
+            "program": "${workspaceRoot}\\node_modules\\jest\\bin\\jest.js",
+            "args": [
+                "-i",
+                "--runInBand"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "outFiles": [
+                "${workspaceRoot}/dist/*"
+            ],
+            "envFile": "${workspaceRoot}/.env",
+            "sourceMaps": true,
+            "disableOptimisticBPs": true
         }
+    ]
+}
