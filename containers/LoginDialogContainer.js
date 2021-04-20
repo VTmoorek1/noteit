@@ -57,4 +57,9 @@ export default class LoginDialogContainer extends Component {
     }
 }
 
+LoginDialogContainer.propTypes = {
+    okHandler: PropTypes.func,
+    cancelHandler: PropTypes.func
+};
+
 

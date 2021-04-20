@@ -55,7 +55,7 @@ export default class SignupDialogContainer extends Component {
     }
 }
 
-SignUpDialog.propTypes = {
+SignupDialogContainer.propTypes = {
     okHandler: PropTypes.func,
     cancelHandler: PropTypes.func
 };

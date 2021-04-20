@@ -4,6 +4,7 @@ import PageMenu from './PageMenu';
 import HeadMenu from './HeadMenu';
 import Spinner from './Spinner';
 import '../stylesheets/main.css';
+import PropTypes from 'prop-types';
 
 export default class App extends Component {
 
@@ -42,4 +43,13 @@ export default class App extends Component {
 
         return main;
     }
+}
+
+App.propTypes = {
+    pageName : PropTypes.string,
+    deletePage : PropTypes.func.isRequired,
+    selectMenuItem : PropTypes.func.isRequired,
+    addPage : PropTypes.func.isRequired,
+    loading : PropTypes.bool.isRequired,
+    pageItems : PropTypes.arrayOf(PropTypes.object).isRequired
 }

@@ -73,7 +73,11 @@ export default class Page extends Component {
 
 }
 
-/*
+
 Page.propTypes = {
-    title: PropTypes.string.isRequired
-}*/
+    pageName : PropTypes.string,
+    removeNoteObj : PropTypes.object,
+    notes : PropTypes.arrayOf(PropTypes.object).isRequired,
+    cancelRemove : PropTypes.func.isRequired,
+    removeClick : PropTypes.func.isRequired
+}

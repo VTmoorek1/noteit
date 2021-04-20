@@ -139,5 +139,7 @@ export default class SignUpDialog extends Component {
 
 SignUpDialog.propTypes = {
     okHandler: PropTypes.func,
-    cancelHandler: PropTypes.func
+    cancelHandler: PropTypes.func,
+    regMessage : PropTypes.string,
+    registerUser : PropTypes.func.isRequired
 };

@@ -113,6 +113,8 @@ export default class LogInDialog extends Component {
 
 LogInDialog.propTypes = {
     okHandler: PropTypes.func,
-    cancelHandler: PropTypes.func
+    cancelHandler: PropTypes.func,
+    login : PropTypes.func.isRequired,
+    loginStr : PropTypes.string
 };
 

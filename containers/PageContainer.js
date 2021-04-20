@@ -140,6 +140,6 @@ export default class PageContainer extends Component {
 
 }
 
-/*Page.propTypes = {
-    title: PropTypes.string.isRequired
-}*/
+PageContainer.propTypes = {
+    pageName : PropTypes.string.isRequired
+}

@@ -133,5 +133,10 @@ export default class PageMenu extends Component {
 }
 
 PageMenu.propTypes = {
+    deletePageEvent : PropTypes.func.isRequired,
+    pageName : PropTypes.string,
+    pageItems : PropTypes.arrayOf(PropTypes.object).isRequired,
+    addPage : PropTypes.func.isRequired,
+    selectMenuItem : PropTypes.func.isRequired,
     deletePageEvent : PropTypes.func.isRequired
 };
