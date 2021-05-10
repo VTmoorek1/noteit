@@ -3,6 +3,8 @@ import GeneralDialog from './GeneralDialog';
 import PropTypes from 'prop-types';
 import '../stylesheets/logindialog.css';
 import '../stylesheets/generaldialog.css';
+import OkButton from './OkButton';
+import CancelButton from './CancelButton';
 
 /**
  * Dialog class handles login
@@ -29,13 +31,13 @@ export default class LogInDialog extends Component {
     }
 
     async okButtonPressed(e) {
+
         // This can only happen if valid data
         e.preventDefault();
 
         let emailCls = 'is-valid';
         let passwordCls = 'is-valid';
         let validInput = true;
-        let loginStr = '';
 
         try {
 
@@ -50,12 +52,7 @@ export default class LogInDialog extends Component {
             }
 
             if (validInput) {
-                loginStr = await this.props.login(this.state.email, this.state.password);
-            }
-
-            if (loginStr.startsWith('success')) {
-                this.props.okHandler({ email: this.state.email, password: this.state.password, name : loginStr.replace('success ',''),
-                    isSignup : false });
+                this.props.login( this.state.email, this.state.password);
             }
             else {
                 this.setState({ emailClass: emailCls, passwordClass: passwordCls});
@@ -68,6 +65,9 @@ export default class LogInDialog extends Component {
     }
 
     render() {
+
+        const {errorStr,cancelHandler} = this.props;
+
         return <div id="logInDlg" className="dialog">
             <div className="loginForm">
                 <form className="needs-validation" noValidate>
@@ -95,15 +95,14 @@ export default class LogInDialog extends Component {
                         </div>
                         </div>
                     </div>
-                    {this.props.loginStr &&
+                    {errorStr &&
                         <div className="loginMessage">
-                            <h4>{this.props.loginStr}</h4>
+                            <h4>{errorStr}</h4>
                         </div>
                     }
                     <div id="loginBtnDiv">
-                        <button onClick={this.okButtonPressed}
-                            className="btn btn-success circleButtons" id="okBtn" type="submit"><i className="fa fa-check"></i></button>
-                        <button onClick={this.props.cancelHandler} className="btn btn-danger circleButtons" id="cancelBtn" type="button"><i className="fa fa-times"></i></button>
+                        <OkButton onClick={this.okButtonPressed} />
+                        <CancelButton onClick={cancelHandler} />
                     </div>
                 </form>
             </div>

@@ -1,6 +1,7 @@
 const express = require('express');
 const pageRouter = express.Router();
 const dbHandler = require('./datahandler');
+const auth = require('./auth');
 
 init = () => {
 
@@ -31,29 +32,39 @@ init = () => {
     });
 
     // Add page post endpoint
-    pageRouter.post('/addpage/:pageName', async (req, res) => {
+    pageRouter.post('/addpage/:pageName', auth.isLoggedIn, async (req, res) => {
 
-        let result = 'Page Added.';
+        let result = 'Page Exists.';
+        let id = null;
 
         try {
 
-            // Construct page object
-            let page = {
-                title: req.params.pageName,
-            };
+            let exists = await dbHandler.findPage(req.params.pageName);
 
-            result = await dbHandler.addPage(page);
+            // Construct page object
+            if (!exists) {
+
+                let page = {
+                    title: req.params.pageName,
+                };
+
+                id = await dbHandler.addPage(page);
+            }
 
         } catch (err) {
             result = 'Error adding page: ' + err;
         }
 
-        res.end(result);
+        const retObj = { id : id,
+            result : result}
+
+        res.json(retObj);
+        res.end();
 
     });
 
     // Delete page endpoint
-    pageRouter.delete('/removepage/:pageName', async (req, res) => {
+    pageRouter.delete('/removepage/:pageName', auth.isLoggedIn, async (req, res) => {
         const pageName = req.params.pageName;
         await dbHandler.removePage(pageName);
         res.status(204).end();

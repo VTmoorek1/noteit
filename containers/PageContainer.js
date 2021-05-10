@@ -2,14 +2,15 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { base64ToArrayBuffer } from '../bin/Utilites';
 import Page from '../components/Page';
+import {connect} from 'react-redux';
+import * as noteActions from '../redux/actions/noteActions';
 
 /**
  * Page component loads and displays notes associated with it. The 
  * notes are loaded from the web server 
  */
-export default class PageContainer extends Component {
+class PageContainer extends Component {
     constructor(props) {
         super(props);
 
@@ -20,7 +21,6 @@ export default class PageContainer extends Component {
         this.loadNotes = this.loadNotes.bind(this);
 
         this.state = {
-            notes: [],
             removeNoteObj: null
         }
     }
@@ -33,96 +33,24 @@ export default class PageContainer extends Component {
         this.setState({ removeNoteObj: null });
     }
 
-    async removeNote(id) {
-        try {
-
-            // Now remove from the server
-            const response = await fetch(window.location.href + 'note/removenote/' + id, {
-                method: 'DELETE'
-            });
-
-            console.log('note removed ' + await response.text());
-
-            // Remove from GUI
-            // Get index of id
-            for (var i = 0; i < this.state.notes.length; i++) {
-                if (id === this.state.notes[i].id) {
-                    break;
-                }
-            }
-
-            let noteArr = [...this.state.notes];
-            noteArr.splice(i, 1);
-            this.setState({ notes: noteArr, removeNoteObj: null });
-
-        } catch (err) {
-            console.error(err);
-        }
+    removeNote(id) {
+        this.props.dispatch(noteActions.deleteNote(id));
+        this.setState({removeNoteObj : null});
     }
 
-    async sendNote(title, desc, fileInput, user, page) {
-        try {
-
-            let fd = new FormData();
-            fd.append('file', fileInput);
-            fd.append('title', title);
-            fd.append('desc', desc);
-            fd.append('user', user);
-            fd.append('page', page);
-
-            // Use fetch and multipart Form Data object to add node to server
-            const response = await fetch(window.location.href + 'note/addnote', {
-                method: 'POST',
-                body: fd
-            });
-
-            const noteId = await response.text();
-
-            if (noteId.match(/^[0-9a-z]{24}$/)) {
-                this.setState({
-                    notes: [{ title: title, desc: desc, file: fileInput, id: noteId },
-                    ...this.state.notes]
-                });
-            }
-
-        } catch (err) {
-            console.log('Error: ' + err);
-        }
+    sendNote(title, desc, fileInput, user, page) {
+        this.props.dispatch(noteActions.addNote(title,desc,fileInput,user,page));
     }
 
-    async loadNotes() {
-        try {
-
-            console.log('Calling get... ' + this.props.pageName);
-
-            // Use fetch to get notes on component loaded 
-            const response = await fetch(window.location.href + 'note/getnotes/' + this.props.pageName, {
-                method: 'GET'
-            });
-
-            let notes = await response.json();
-            const noteArr = [];
-
-            // Add notes returned from API request
-            for (let n of notes) {
-                let fileBuffer = n.file.buffer;
-                let array = base64ToArrayBuffer(fileBuffer);
-                let b = new Blob([array], { type: n.file.type });
-                noteArr.unshift({ title: n.title, desc: n.desc, file: b, id: n._id });
-            }
-
-            this.setState({ notes: noteArr });
-
-        } catch (err) {
-            console.log('Error: ' + err);
-        }
+    loadNotes() {
+        this.props.dispatch(noteActions.fetchNotes(this.props.pageName));
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         this.loadNotes();
     }
 
-    async componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps) {
         if (this.props.pageName !== prevProps.pageName) {
             this.loadNotes();
         }
@@ -130,7 +58,8 @@ export default class PageContainer extends Component {
     
     render() {
 
-        const { notes, removeNoteObj } = this.state;
+        const { removeNoteObj } = this.state;
+        const {notes} = this.props;
 
         return <div id="pageContainerDiv">
             <Page notes={notes} removeNote={this.removeNote} sendNote={this.sendNote} cancelRemove={this.cancelRemove}
@@ -143,3 +72,7 @@ export default class PageContainer extends Component {
 PageContainer.propTypes = {
     pageName : PropTypes.string.isRequired
 }
+
+export default connect(store => ({
+    notes : store.note.notes
+}))(PageContainer);

@@ -7,7 +7,8 @@ const initPassport = require('./passport-config');
 const bcrypt = require('bcryptjs');
 const dbHandler = require('./datahandler');
 
-init = () => {
+
+module.exports = (() => {
 
     authRouter.use(flash());
     authRouter.use(session({
@@ -21,17 +22,17 @@ init = () => {
     initPassport(passport, dbHandler);
 
     authRouter.get('/loginSuccess', (req, res) => {
-
         const userObj = req.user;
         console.log('Login Success: ' + userObj);
-        res.end('success ' + userObj.name);
+        res.json({status : 'success', userName : userObj.name});
+        res.end();
     });
 
     authRouter.get('/loginFail', async (req, res) => {
-
         const errorMsg = req.flash('error');
         console.log('Login Fail: ' + errorMsg[0]);
-        res.end(errorMsg[0]);
+        res.json({status : 'error', error : errorMsg[0]});
+        res.end();
     });
 
     const authStrategy = passport.authenticate('local', {
@@ -54,7 +55,7 @@ init = () => {
 
     });
 
-    register = async (req, res,next) => {
+    const register = async (req, res,next) => {
         let result = 'success';
 
         try {
@@ -82,7 +83,7 @@ init = () => {
 
         }
         catch (err) {
-            result = err;
+            result = err.message;
         }
 
         console.log('Register result: ' + result);
@@ -94,14 +95,23 @@ init = () => {
         }
         else
         {
-            res.end(result);
+            res.json({status : 'error', error : result});
+            res.end();
         }
     }
+
+    // Return if user is logged in
+    authRouter.get('/user',function (req,res) {
+        const userObj = {name : req.isAuthenticated() ? req.user.name : null};
+        res.json(userObj);
+        res.end();
+    });
 
     // Register a user
     authRouter.post('/register', register, authStrategy);
 
     function isNotLoggedIn(req, res, next) {
+
         if (req.isAuthenticated()) {
             return next();
         }
@@ -110,17 +120,12 @@ init = () => {
     }
 
     function isLoggedIn(req, res, next) {
-        if (req.isAuthenticated()) {
-            return res.redirect('/');
-        }
-
-        next();
+        req.isAuthenticated() ? next() : res.end('UNAUTHENTICATED');
     }
 
     return {
-        route: authRouter
+        route: authRouter,
+        isLoggedIn : isLoggedIn
     }
 
-}
-
-module.exports = init;
+})();

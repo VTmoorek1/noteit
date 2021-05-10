@@ -2,6 +2,7 @@ const express = require('express');
 const noteRouter = express.Router();
 const upload = require('multer')();
 const dbHandler = require('./datahandler');
+const auth = require('./auth');
 
 
 const init = () => {
@@ -23,7 +24,7 @@ const init = () => {
 
 
     // Delete note endpoint
-    noteRouter.delete('/removenote/:id', async (req, res) => {
+    noteRouter.delete('/removenote/:id', auth.isLoggedIn, async (req, res) => {
 
         const noteID = req.params.id;
         await dbHandler.removeNote(noteID);
@@ -31,7 +32,7 @@ const init = () => {
     });
 
     // Add note post endpoint
-    noteRouter.post('/addnote', upload.single('file'), async (req, res) => {
+    noteRouter.post('/addnote', auth.isLoggedIn, upload.single('file'), async (req, res) => {
 
         let result = 'Note Added.';
 

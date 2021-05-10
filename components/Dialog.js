@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import OkButton from './OkButton';
+import CancelButton from './CancelButton';
 import '../stylesheets/dialog.css'
 import '../stylesheets/generaldialog.css';
 
@@ -56,9 +58,8 @@ export default class Dialog extends Component {
                         <label id="fileLabel" className="custom-file-label" htmlFor="noteFile">Choose note file...</label>
                     </div>
                     <div id="dBtnDiv">
-                        <button onClick={this.addAction} 
-                            className="btn btn-success circleButtons" id="okBtn" type="button"><i className="fa fa-check"></i></button>
-                        <button onClick={this.props.cancel} className="btn btn-danger circleButtons" id="cancelBtn" type="button"><i className="fa fa-times"></i></button>
+                        <OkButton onClick={this.addAction} />
+                        <CancelButton onClick={this.props.cancel} />
                     </div>
                 </form>
             </div>

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import GeneralDialog from './GeneralDialog';
 import PropTypes from 'prop-types';
 import '../stylesheets/generaldialog.css';
+import OkButton from './OkButton';
+import CancelButton from './CancelButton';
 
 /**
  * Dialog class handles sign up
@@ -56,20 +58,13 @@ export default class SignUpDialog extends Component {
                 validInput = false;
             }
 
-            if (validInput) {
-                resStr = await this.props.registerUser(this.state.email, this.state.name, this.state.password);
-            }
-
             console.log("Register response: " + resStr);
 
-            if (resStr.startsWith('success')) {
-                this.props.okHandler({
-                    email: this.state.email, password: this.state.password,
-                    name: this.state.name, isSignup : true
-                });
+            if (validInput) {
+                this.props.registerUser(this.state.email, this.state.name, this.state.password);
             }
             else {
-                this.setState({ emailClass: emailCls, passwordClass: passwordCls, nameClass: nameCls, regMessage : resStr });
+                this.setState({ emailClass: emailCls, passwordClass: passwordCls, nameClass: nameCls});
             }
 
         } catch (err) {
@@ -83,6 +78,9 @@ export default class SignUpDialog extends Component {
     }
 
     render() {
+
+        const {errorStr,cancelHandler} = this.props;
+
         return <div id="signUpDlg" className="dialog">
             <div className="signUpForm">
                 <form className="needs-validation" noValidate>
@@ -120,16 +118,14 @@ export default class SignUpDialog extends Component {
                         </div>
                         </div>
                     </div>
-                    {this.props.regMessage &&
+                    {errorStr &&
                         <div className="registerMessage">
-                            <h4>{this.props.regMessage}</h4>
+                            <h4>{errorStr}</h4>
                         </div>
                     }
                     <div id="signUpBtnDiv">
-                        <button onClick={this.okButtonPressed}
-                            className="btn btn-success circleButtons" id="okBtn" type="submit"><i className="fa fa-check"></i></button>
-                        <button name="signUpBTN" onClick={this.props.cancelHandler} className="btn btn-danger circleButtons" id="signUpCancelBtn" 
-                            type="button"><i className="fa fa-times" id="signUpCancelIcon"></i></button>
+                        <OkButton onClick={this.okButtonPressed} />
+                        <CancelButton id="signUpCancelBtn" onClick={cancelHandler} />
                     </div>
                 </form>
             </div>
@@ -138,8 +134,6 @@ export default class SignUpDialog extends Component {
 }
 
 SignUpDialog.propTypes = {
-    okHandler: PropTypes.func,
     cancelHandler: PropTypes.func,
-    regMessage : PropTypes.string,
     registerUser : PropTypes.func.isRequired
 };

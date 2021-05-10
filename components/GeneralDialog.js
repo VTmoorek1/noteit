@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import '../stylesheets/generaldialog.css';
+import OkButton from './OkButton';
+import CancelButton from './CancelButton';
 
 /**
  * General use dialog. Can set message and ok and cancel action events
@@ -30,10 +32,8 @@ export default class GeneralDialog extends Component {
                 {this.props.textBox && <input name="title" onChange={this.handleChange} 
                     value ={this.state.title} type="text" className="form-control" id="gdTextBox" />}
                 <div id="gdBtnDiv">
-                        {this.props.okAction && <button onClick={()=>{this.props.okAction(this.state.title)}}
-                            className="btn btn-success circleButtons" id="okBtn" type="button"><i className="fa fa-check"></i></button>}
-                        {this.props.cancelAction && <button onClick={this.props.cancelAction} className="btn btn-danger circleButtons" 
-                            id="cancelBtn" type="button"><i className="fa fa-times"></i></button>}
+                        {this.props.okAction && <OkButton onClick={()=>{this.props.okAction(this.state.title)}} />}
+                        {this.props.cancelAction && <CancelButton onClick={this.props.cancelAction} />}
                     </div>
             </div>
         </div>;

@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import SignUpDialog from '../components/SignUpDialog';
+import {connect} from 'react-redux';
+import {registerUser} from '../redux/actions/authActions';
 
 /**
  * Dialog class handles sign up
  */
-export default class SignupDialogContainer extends Component {
+class SignupDialogContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -18,38 +20,17 @@ export default class SignupDialogContainer extends Component {
 
     }
 
-    async registerUser(email, name, password) {
-        try {
-
-            // Use fetch to try and register user 
-            const response = await fetch(window.location.href + 'auth/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    'email': email,
-                    'password': password,
-                    'name': name
-                })
-            });
-
-            const resText = await response.text();
-
-            this.setState({regMessage : resText});
-
-            return resText;
-        } catch (err) {
-            console.log('Error: ' + err);
-        }
+    registerUser(email,name,password)
+    {
+        this.props.dispatch(registerUser(email, name, password));
     }
 
     render() {
 
-        const {okHandler,cancelHandler} = this.props;
+        const {cancelHandler,errorStr} = this.props;
 
         return <div id="signUpDlgContainer">
-            <SignUpDialog okHandler={okHandler} cancelHandler={cancelHandler} regMessage={this.state.regMessage} 
+            <SignUpDialog cancelHandler={cancelHandler} errorStr={errorStr} 
                registerUser={this.registerUser} />
         </div>;
     }
@@ -59,3 +40,9 @@ SignupDialogContainer.propTypes = {
     okHandler: PropTypes.func,
     cancelHandler: PropTypes.func
 };
+
+export default connect(store => (
+    {
+        errorStr : store.app.signup.error
+    }
+))(SignupDialogContainer);

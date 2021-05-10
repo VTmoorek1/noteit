@@ -1,105 +1,50 @@
 import React, { Component } from 'react';
 import App from '../components/App';
+import * as appActions from '../redux/actions/appActions';
+import {connect} from 'react-redux';
 
-export default class AppContainer extends Component {
+class AppContainer extends Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {
-            pageName: null,
-            pageItems: [],
-            loading: true
-        }
 
         this.deletePage = this.deletePage.bind(this);
         this.addPage = this.addPage.bind(this);
         this.selectMenuItem = this.selectMenuItem.bind(this);
     }
 
-    async componentDidMount() {
-        try {
-
-            // Use fetch to get pages for menu on component loaded 
-            const response = await fetch(window.location.href + 'page/getpages', {
-                method: 'GET'
-            });
-
-            let pages = await response.json();
-            const items = [];
-
-            // Add pages returned from API request
-            for (let p of pages) {
-                items.unshift({title : p.title, id : p._id});
+    componentDidUpdate(prevProps)
+    {
+        if (this.props.loggedOn !== prevProps.loggedOn)
+        {
+            if (this.props.loggedOn)
+            {
+                this.props.dispatch(appActions.fetchPages());
             }
-
-            this.setState({loading : false,
-                pageItems : items});
-
-        } catch (err) {
-            console.log('Error: ' + err);
         }
     }
 
-    async addPage(pageName) {
-
-        let addedPage = false;
-
-        // Check first to see if page exists
-        const pageRes = await fetch(window.location.href + "page/findpage/" + pageName, {
-            method: 'GET'
-        });
-
-        let pageObj = await pageRes.json();
-
-        if (!pageObj.exists) {
-
-            // Add page on server
-            const response = await fetch(window.location.href + "page/addpage/" + pageName, {
-                method: 'POST'
-            });
-
-            let id = await response.text();
-
-            // Add to GUI
-            this.setState({pageItems : [pageName,...this.state.pageItems]});
-
-            addedPage = true;
-        }
-
-        return addedPage;
-
+    componentDidMount() {
+        this.props.dispatch(appActions.fetchInitialState());        
     }
 
-    async deletePage(pageName) {
+    async addPage(pageName)
+    {
+        return await this.props.dispatch(appActions.addPage(pageName));
+    }
 
-        // Remove from the server
-        const response = await fetch(window.location.href + 'page/removepage/' + pageName, {
-            method: 'DELETE'
-        });
-
-        // Get index of page
-        for (var i = 0; i < this.state.pageItems.length; i++) {
-            if (pageName === this.state.pageItems[i].title) {
-                break;
-            }
-        }
-
-        // Remove from menu
-        let pageArr = [...this.state.pageItems];
-        pageArr.splice(i, 1);
-
-        this.setState({ pageName: null, pageItems : pageArr });
+    deletePage(pageName) {
+        this.props.dispatch(appActions.deletePage(pageName));
     }
 
     selectMenuItem(pageName)
     {
-        this.setState({ pageName: pageName});
+        this.props.dispatch(appActions.selectPage(pageName));
     }    
 
     render() {
 
-        const {pageName, loading, pageItems} = this.state;
+        const {pageItems, loading, pageName} = this.props;
 
         let main = <div id="appContainer">
             <App deletePage={this.deletePage} pageName={pageName} 
@@ -110,3 +55,10 @@ export default class AppContainer extends Component {
         return main;
     }
 }
+
+export default connect(store => ({
+    pageName : store.app.pageName,
+    pageItems : store.app.pageItems,
+    loading : store.app.loading,
+    loggedOn : store.app.loggedOn
+}))(AppContainer);

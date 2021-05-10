@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import PageContainer from '../containers/PageContainer';
 import PageMenu from './PageMenu';
-import HeadMenu from './HeadMenu';
 import Spinner from './Spinner';
 import '../stylesheets/main.css';
 import PropTypes from 'prop-types';
+import HeadMenuContainer from '../containers/HeadMenuContainer';
 
 export default class App extends Component {
 
     constructor(props) {
         super(props);
-
+        
     }
 
     render() {
@@ -20,7 +20,7 @@ export default class App extends Component {
         {/* Use bootstrap for 3 columns, first column to be Page menu,
             second column to be the media page, third column is spacing */}
         let main = <div id="mainApp">
-            <HeadMenu />
+            <HeadMenuContainer />
             <div id="pageMenuDiv">
                 {
                     <PageMenu pageItems={pageItems}  deletePageEvent={deletePage} 
