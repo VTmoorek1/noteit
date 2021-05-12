@@ -134,3 +134,12 @@ export function deleteNote(id) {
 
     };
 };
+
+export function setRemoveNoteObj(noteObj,dispatch)
+{
+    dispatch({
+        type: 'SET_REMOVE_NOTE',
+        removeNote : noteObj
+    });
+
+}

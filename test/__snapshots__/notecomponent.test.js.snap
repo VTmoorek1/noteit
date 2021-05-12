@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render a note with title, user, media and description 1`] = `
+<Note
+  desc="This is the description"
+  file={Blob {}}
+  mID="12345678912345678901234"
+  title="Note Title"
+>
+  <div
+    className="note bg-dark"
+  >
+    <div
+      id="topDiv"
+    >
+      <img
+        className="userImg"
+        src="https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/13000724/Belgian-Malinois-On-White-01.jpg"
+      />
+      <div
+        id="titleDiv"
+      >
+        <h3
+          id="title"
+        >
+          Note Title
+        </h3>
+      </div>
+      <div
+        id="topBtnDiv"
+      >
+        <button
+          className="btn btn-danger circleButtons"
+          id="cancelNoteBtn"
+          onClick={[Function]}
+          type="button"
+        >
+          <i
+            className="fa fa-times"
+          />
+        </button>
+      </div>
+    </div>
+    <div
+      id="midDiv"
+    >
+      <Media
+        file={Blob {}}
+        mediaID="12345678912345678901234"
+      >
+        <div
+          id="mediaDiv"
+        />
+      </Media>
+    </div>
+    <div
+      id="bottomDiv"
+    >
+      <h6>
+        This is the description
+      </h6>
+    </div>
+  </div>
+</Note>
+`;

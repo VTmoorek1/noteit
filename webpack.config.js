@@ -10,16 +10,19 @@ module.exports = {
     module: {
         rules: [{
             test: /\.(js|jsx)$/,
-                exclude: /node_modules/,
-                loader: 'babel-loader'
-            },{
-                test: /\.less$/,
-                loaders: ["style-loader", "css-loader", "less-loader"]
+                exclude: /(node_modules|server|bin)/,
+                use: 'babel-loader'
             },
             {
                 test: /\.css$/,
-                loaders: ["style-loader", "css-loader"]
+                use: ["style-loader", "css-loader"]
+            },
+            {
+                test: /\.(ts|tsx)$/,
+                exclude: /(node_modules|server|bin)/,
+                use: 'ts-loader'
             }
+            
         ]
     },
     mode : 'development',
@@ -36,5 +39,8 @@ module.exports = {
         poll: true,
         ignored: /node_modules/
       },
-      "devtool": "eval-source-map"
+      "devtool": "eval-source-map",
+      resolve: {
+        extensions: [".js", ".json", ".ts", ".tsx"],
+      }
 }

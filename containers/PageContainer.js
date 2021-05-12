@@ -20,22 +20,19 @@ class PageContainer extends Component {
         this.sendNote = this.sendNote.bind(this);
         this.loadNotes = this.loadNotes.bind(this);
 
-        this.state = {
-            removeNoteObj: null
-        }
     }
 
     removeClick(obj) {
-        this.setState({ removeNoteObj: obj });
+        noteActions.setRemoveNoteObj(obj,this.props.dispatch);
     }
 
     cancelRemove() {
-        this.setState({ removeNoteObj: null });
+        noteActions.setRemoveNoteObj(null,this.props.dispatch);
     }
 
     removeNote(id) {
         this.props.dispatch(noteActions.deleteNote(id));
-        this.setState({removeNoteObj : null});
+        noteActions.setRemoveNoteObj(null,this.props.dispatch);
     }
 
     sendNote(title, desc, fileInput, user, page) {
@@ -58,8 +55,7 @@ class PageContainer extends Component {
     
     render() {
 
-        const { removeNoteObj } = this.state;
-        const {notes} = this.props;
+        const {notes,removeNoteObj } = this.props;
 
         return <div id="pageContainerDiv">
             <Page notes={notes} removeNote={this.removeNote} sendNote={this.sendNote} cancelRemove={this.cancelRemove}
@@ -74,5 +70,6 @@ PageContainer.propTypes = {
 }
 
 export default connect(store => ({
-    notes : store.note.notes
+    notes : store.note.notes,
+    removeNoteObj : store.note.removeNoteObj
 }))(PageContainer);

@@ -1,4 +1,4 @@
-export default function reducer(state = {notes : [], error : null}
+export default function reducer(state = {notes : [], error : null, removeNoteObj : null}
     , action) {
 
     switch (action.type) {
@@ -25,9 +25,6 @@ export default function reducer(state = {notes : [], error : null}
             break;
         case 'DELETE_NOTE_SUCCESS':
 
-            const pgName = action.pageName;
-            const pageItems = state.pageItems;
-
             // Get index of id
             for (var i = 0; i < state.notes.length; i++) {
                 if (action.noteId === state.notes[i].id) {
@@ -35,14 +32,12 @@ export default function reducer(state = {notes : [], error : null}
                 }
             }
 
-            let noteArr = [...state.notes];
+            const noteArr = [...state.notes];
             noteArr.splice(i, 1);
-
             state = {...state, notes : noteArr, loading : action.loading};
-
             break;
-        case 'SELECT_PAGE':
-            state = { ...state, pageName: action.pageName };
+       case 'SET_REMOVE_NOTE':
+            state = { ...state, removeNoteObj : action.removeNote};
             break;
         
     }

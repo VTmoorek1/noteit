@@ -44,11 +44,12 @@ class AppContainer extends Component {
 
     render() {
 
-        const {pageItems, loading, pageName} = this.props;
+        const {pageItems, loading, notesLoading, pageName} = this.props;
+        const totalLoading = loading || notesLoading;
 
         let main = <div id="appContainer">
             <App deletePage={this.deletePage} pageName={pageName} 
-                loading={loading} addPage={this.addPage} pageItems={pageItems} 
+                loading={totalLoading} addPage={this.addPage} pageItems={pageItems} 
                 selectMenuItem={this.selectMenuItem}/>                
         </div>;
 
@@ -60,5 +61,6 @@ export default connect(store => ({
     pageName : store.app.pageName,
     pageItems : store.app.pageItems,
     loading : store.app.loading,
+    notesLoading : store.note.loading,
     loggedOn : store.app.loggedOn
 }))(AppContainer);
