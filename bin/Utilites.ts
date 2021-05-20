@@ -1,14 +1,21 @@
-module.exports = {
+enum Media {
+    image='image',
+    video='video',
+    audio='audio',
+    none='none'
+}
 
-    getFileType: (fileType) => {
+export default {
 
-        let typeStr = null;
+    getFileType: (fileType : string) : Media => {
+
+        let type : Media = Media.none;
 
         if (fileType !== null) {
 
             // First check the prefix before the /
             let sIndex = fileType.indexOf('/');
-            let suffix = '';
+            let suffix,typeStr = '';
 
             if (sIndex > -1) {
                 typeStr = fileType.slice(0, sIndex);
@@ -21,18 +28,16 @@ module.exports = {
             if (typeStr !== 'audio' && typeStr !== 'video' &&
                 typeStr !== 'image') {
 
-                typeStr = null;
-
                 switch(suffix)
                 {
                     case 'mp4':
                     case 'webm':
                     case 'ogg':
-                        typeStr = 'video';
+                        type = Media.video;
                         break;
                     case 'mp3':
                     case 'wav':
-                        typeStr = 'audio';
+                        type = Media.audio;
                         break;
                     case 'png':
                     case 'bmp':
@@ -41,16 +46,16 @@ module.exports = {
                     case 'jpeg':
                     case 'svg+xml':
                     case 'tiff':
-                    case 'webp':    
-                        typeStr = 'image'
+                    case 'webp':
+                        type = Media.image;
                         break;
                 }
             }
         }
 
-        return typeStr;
+        return type;
     },
-    base64ToArrayBuffer : (base64) => {
+    base64ToArrayBuffer : (base64 : string) : ArrayBuffer => {
         
         let binaryString =  window.atob(base64);
         let length = binaryString.length;
@@ -61,5 +66,6 @@ module.exports = {
         }
 
         return bytes.buffer;
-    }
+    },
+    Media : Media
 };

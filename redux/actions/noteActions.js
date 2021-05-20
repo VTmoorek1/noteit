@@ -1,4 +1,4 @@
-import {base64ToArrayBuffer} from '../../bin/Utilites';
+import Utilities from '../../bin/Utilites';
 
 export function fetchNotes(pageName) {
 
@@ -26,7 +26,7 @@ export function fetchNotes(pageName) {
                 // Add notes returned from API request
                 for (let n of notes) {
                     let fileBuffer = n.file.buffer;
-                    let array = base64ToArrayBuffer(fileBuffer);
+                    let array = Utilities.base64ToArrayBuffer(fileBuffer);
                     let b = new Blob([array], { type: n.file.type });
                     noteArr.unshift({ title: n.title, desc: n.desc, file: b, id: n._id });
                 }

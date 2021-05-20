@@ -19,7 +19,7 @@ module.exports = {
             },
             {
                 test: /\.(ts|tsx)$/,
-                exclude: /(node_modules|server|bin)/,
+                exclude: /(node_modules|server)/,
                 use: 'ts-loader'
             }
             

@@ -1,15 +1,32 @@
 import React, { Component } from 'react';
 import GeneralDialog from './GeneralDialog';
 import PageMenuItem from './PageMenuItem';
-import PropTypes from 'prop-types';
 import '../stylesheets/pagemenu.css';
+import {PageItem} from '../interfaces/pageinterface';
+
+interface Props {
+    deletePageEvent : (pageName : string) => void,
+    pageName : (string|null),
+    pageItems : PageItem[],
+    addPage : (pageName : string) => Promise<string>,
+    selectMenuItem : (pageName : string) => void
+}
+
+interface PMState {
+    showDialog: boolean,
+    showErrorDialog : boolean,
+    menuOptions : (JSX.Element | null),
+    deleteDialog : (JSX.Element | null)
+}
 
 /**
  * Page Menu will load page items and selected page. Future enhancement.
  */
-export default class PageMenu extends Component {
-
-    constructor(props) {
+export default class PageMenu extends Component<Props,PMState> {
+    
+    private node : HTMLDivElement | null = null;
+    
+    constructor(props : Props) {
         super(props);
 
         this.state = {
@@ -35,17 +52,17 @@ export default class PageMenu extends Component {
         this.setState({deleteDialog : null});
     }
 
-    deletePage(pageName)
+    deletePage(pageName : string)
     {
         this.props.deletePageEvent(pageName);
 
-        this.setState({deleteDialog : null, selectedMenuItem : null });
+        this.setState({deleteDialog : null });
     }
 
-    selectedPageMenuItem(e) {
+    selectedPageMenuItem(e : React.MouseEvent<HTMLButtonElement,MouseEvent>) {
 
         // Reload on any click
-        let pageName = e.target.value;
+        let pageName = e.currentTarget.value;
 
         this.props.selectMenuItem(pageName);
         
@@ -61,7 +78,7 @@ export default class PageMenu extends Component {
         }
     }
 
-    deleteClick(pageName) {
+    deleteClick(pageName : string) {
         this.setState({menuOptions : null,deleteDialog : <GeneralDialog message={`Are you sure to delete ${pageName}?`} 
             okAction={()=>this.deletePage(pageName)} cancelAction={this.closeDeleteDialog} />});
     }
@@ -74,7 +91,7 @@ export default class PageMenu extends Component {
         this.setState({showErrorDialog: false});
     }
 
-    async okAddPage(pageName) {
+    async okAddPage(pageName : string) {
 
         const addedPage = await this.props.addPage(pageName);
 
@@ -101,8 +118,8 @@ export default class PageMenu extends Component {
         document.removeEventListener('mousedown',this.handleGlobalClick,false);
     }
 
-    handleGlobalClick(e) {
-        if (this.node && !this.node.contains(e.target))
+    handleGlobalClick(e : MouseEvent) {
+        if (this.node && !this.node.contains(e.currentTarget as Node))
         {
             this.setState({menuOptions : null});
         }   
@@ -131,12 +148,3 @@ export default class PageMenu extends Component {
     }
 
 }
-
-PageMenu.propTypes = {
-    deletePageEvent : PropTypes.func.isRequired,
-    pageName : PropTypes.string,
-    pageItems : PropTypes.arrayOf(PropTypes.object).isRequired,
-    addPage : PropTypes.func.isRequired,
-    selectMenuItem : PropTypes.func.isRequired,
-    deletePageEvent : PropTypes.func.isRequired
-};

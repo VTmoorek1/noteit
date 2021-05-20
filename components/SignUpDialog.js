@@ -16,7 +16,7 @@ export default class SignUpDialog extends Component {
         this.state = {
             email: '',
             password: '',
-            name,
+            name : '',
             emailClass: '',
             passwordClass: '',
             nameClass: ''

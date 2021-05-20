@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Connect database on startup
-(async () => {
+(async () => { 
     try {
         await dbHandler.connect();
 

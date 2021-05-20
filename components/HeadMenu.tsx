@@ -3,22 +3,30 @@ import User from './User';
 import '../stylesheets/headmenu.css';
 import LoginDialogContainer from '../containers/LoginDialogContainer';
 import SignupDialogContainer from '../containers/SignupDialogContainer';
-import PropTypes from 'prop-types';
 
-export default class HeadMenu extends Component {
+interface Props {
+    loggedOn : string,
+    showLoginDlg : boolean,
+    showSignupDlg: boolean,
+    signoutClicked : () => void,
+    initiateAuth : (p1 : object) => void,
+    cancelAuth : () => void
+}
 
-    constructor(props) {
+export default class HeadMenu extends Component<Props> {
+
+    constructor(props : Props) {
         super(props);
 
         this.loginClicked = this.loginClicked.bind(this);
         this.cancelLogin = this.cancelLogin.bind(this);
     }
 
-    loginClicked(e) {   
+    loginClicked(e : React.MouseEvent<HTMLButtonElement, MouseEvent>) {   
 
-        let dlgObj = { showLoginDlg: true };    
+        let dlgObj : object = { showLoginDlg: true };    
 
-        if (e.target.name === 'signup') {
+        if (e.currentTarget.name === 'signup') {
             dlgObj = { showSignupDlg: true };
         }
 
@@ -26,7 +34,7 @@ export default class HeadMenu extends Component {
 
     }
 
-    cancelLogin(e) {
+    cancelLogin() {
         this.props.cancelAuth();
     }	
 
@@ -62,10 +70,4 @@ export default class HeadMenu extends Component {
 
         return main;
     }
-}
-
-HeadMenu.propTypes = {
-    loggedOn : PropTypes.string,
-    showLoginDlg : PropTypes.bool,
-    showSignupDlg: PropTypes.bool
 }

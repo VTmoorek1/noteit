@@ -3,12 +3,23 @@ import PageContainer from '../containers/PageContainer';
 import PageMenu from './PageMenu';
 import Spinner from './Spinner';
 import '../stylesheets/main.css';
-import PropTypes from 'prop-types';
+import {PageItem} from '../interfaces/pageinterface'; 
 import HeadMenuContainer from '../containers/HeadMenuContainer';
 
-export default class App extends Component {
 
-    constructor(props) {
+interface Props
+{
+    pageName : (string | null),
+    deletePage : (p1 : string) => void,
+    selectMenuItem : (p1 : string) => void,
+    addPage : (p1 : string) => Promise<string>,
+    loading : boolean,
+    pageItems : PageItem[]
+}
+
+export default class App extends Component<Props> {
+
+    constructor(props : Props) {
         super(props);
         
     }
@@ -43,13 +54,4 @@ export default class App extends Component {
 
         return main;
     }
-}
-
-App.propTypes = {
-    pageName : PropTypes.string,
-    deletePage : PropTypes.func.isRequired,
-    selectMenuItem : PropTypes.func.isRequired,
-    addPage : PropTypes.func.isRequired,
-    loading : PropTypes.bool.isRequired,
-    pageItems : PropTypes.arrayOf(PropTypes.object).isRequired
 }

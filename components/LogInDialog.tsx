@@ -1,24 +1,35 @@
 import React, { Component } from 'react';
 import GeneralDialog from './GeneralDialog';
-import PropTypes from 'prop-types';
 import '../stylesheets/logindialog.css';
 import '../stylesheets/generaldialog.css';
 import OkButton from './OkButton';
 import CancelButton from './CancelButton';
 
+interface Props {
+    okHandler? : () => void,
+    cancelHandler : (e? :  React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+    login: (name: string, password: string) => void,
+    loginStr?: (string | null),
+    errorStr?: (string | null)
+}
+
+interface State {
+    [key:string] : string
+}
+
 /**
  * Dialog class handles login
  */
-export default class LogInDialog extends Component {
+export default class LogInDialog extends Component<Props, State> {
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
             email: '',
             password: '',
             emailClass: '',
-            passwordClass: '',
+            passwordClass: ''
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -26,36 +37,37 @@ export default class LogInDialog extends Component {
 
     }
 
-    handleChange(e) {
+    handleChange(e : React.ChangeEvent<HTMLInputElement>) {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    async okButtonPressed(e) {
+    okButtonPressed(e? : React.MouseEvent<HTMLButtonElement>) {
 
         // This can only happen if valid data
-        e.preventDefault();
+        e?.preventDefault();
 
         let emailCls = 'is-valid';
         let passwordCls = 'is-valid';
         let validInput = true;
+        const {email,password} = this.state;
 
         try {
 
-            if (!GeneralDialog.isValidEmail(this.state.email)) {
+            if (!GeneralDialog.isValidEmail(email)) {
                 emailCls = 'is-invalid';
                 validInput = false;
             }
 
-            if (!GeneralDialog.isValidPassword(this.state.password)) {
+            if (!GeneralDialog.isValidPassword(password)) {
                 passwordCls = 'is-invalid';
                 validInput = false;
             }
 
             if (validInput) {
-                this.props.login( this.state.email, this.state.password);
+                this.props.login(email, password);
             }
             else {
-                this.setState({ emailClass: emailCls, passwordClass: passwordCls});
+                this.setState({ emailClass: emailCls, passwordClass: passwordCls });
             }
 
         } catch (err) {
@@ -66,7 +78,8 @@ export default class LogInDialog extends Component {
 
     render() {
 
-        const {errorStr,cancelHandler} = this.props;
+        const { errorStr, cancelHandler } = this.props;
+        const {email,password,emailClass,passwordClass} = this.state;
 
         return <div id="logInDlg" className="dialog">
             <div className="loginForm">
@@ -75,8 +88,8 @@ export default class LogInDialog extends Component {
                     <h2>Log In</h2>
                     <div className="form-group">
                         <div>
-                            <input name="email" onChange={this.handleChange} value={this.state.email} type="email"
-                                className={"form-control " + this.state.emailClass + " tbSpacing"} id="emailTB" placeholder="Email Address" required />
+                            <input name="email" onChange={this.handleChange} value={email} type="email"
+                                className={"form-control " + emailClass + " tbSpacing"} id="emailTB" placeholder="Email Address" required />
                             <div className="valid-feedback">
                                 Looks good!
                         </div>
@@ -85,8 +98,8 @@ export default class LogInDialog extends Component {
                         </div>
                         </div>
                         <div>
-                            <input name="password" onChange={this.handleChange} value={this.state.password} type="password"
-                                className={"form-control " + this.state.passwordClass + " tbSpacing"} id="passwordTB" placeholder="Password" required />
+                            <input name="password" onChange={this.handleChange} value={password} type="password"
+                                className={"form-control " + passwordClass + " tbSpacing"} id="passwordTB" placeholder="Password" required />
                             <div className="valid-feedback">
                                 Looks good!
                         </div>
@@ -110,10 +123,4 @@ export default class LogInDialog extends Component {
     }
 }
 
-LogInDialog.propTypes = {
-    okHandler: PropTypes.func,
-    cancelHandler: PropTypes.func,
-    login : PropTypes.func.isRequired,
-    loginStr : PropTypes.string
-};
 
