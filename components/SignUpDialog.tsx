@@ -1,16 +1,26 @@
 import React, { Component } from 'react';
 import GeneralDialog from './GeneralDialog';
-import PropTypes from 'prop-types';
 import '../stylesheets/generaldialog.css';
 import OkButton from './OkButton';
 import CancelButton from './CancelButton';
 
+
+interface Props {
+    cancelHandler : (e? :  React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+    errorStr?: (string | null),
+    registerUser : (email : string, password : string, name : string) => void
+}
+
+interface State {
+    [key:string] : string
+}
+
 /**
  * Dialog class handles sign up
  */
-export default class SignUpDialog extends Component {
+export default class SignUpDialog extends Component<Props,State> {
 
-    constructor(props) {
+    constructor(props : Props) {
         super(props);
 
         this.state = {
@@ -27,13 +37,13 @@ export default class SignUpDialog extends Component {
 
     }
 
-    handleChange(e) {
+    handleChange(e : React.ChangeEvent<HTMLInputElement>) {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    async okButtonPressed(e) {
+    async okButtonPressed(e? : React.MouseEvent<HTMLButtonElement,MouseEvent>) {
         // This can only happen if valid data
-        e.preventDefault();
+        e?.preventDefault();
 
         let emailCls = 'is-valid';
         let passwordCls = 'is-valid';
@@ -73,11 +83,11 @@ export default class SignUpDialog extends Component {
 
     }
 
-    isValidName(name) {
+    isValidName(name : string) {
         return name.match(/[A-Za-z]{3,25}/g);
     }
 
-    render() {
+    render() { 
 
         const {errorStr,cancelHandler} = this.props;
 
@@ -132,8 +142,3 @@ export default class SignUpDialog extends Component {
         </div>;
     }
 }
-
-SignUpDialog.propTypes = {
-    cancelHandler: PropTypes.func,
-    registerUser : PropTypes.func.isRequired
-};

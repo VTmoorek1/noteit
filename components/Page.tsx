@@ -1,18 +1,35 @@
 'use strict';
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import Note from './Note';
 import Dialog from './Dialog';
 import RemoveDialog from './GeneralDialog';
 import '../stylesheets/page.css';
+import {NoteItem, RemoveNoteItem} from '../interfaces/noteinterface';
+
+
+
+interface Props {
+    pageName : (string | null),
+    removeNoteObj : (RemoveNoteItem | null),
+    notes : NoteItem[],
+    cancelRemove : () => void,
+    removeClick : (obj : object) => void,
+    removeNote : (id :string) => void,
+    sendNote : (title: string, desc : string, file : (File | null), 
+        user : string, pageName : (string | null)) => void
+}
+
+interface State {
+    showDialog : boolean
+}
 
 /**
  * Page component loads and displays notes associated with it. The 
- * notes are loaded from the web server 
+ * notes are loaded from the web server
  */
-export default class Page extends Component {
-    constructor(props) {
+export default class Page extends Component<Props,State> {
+    constructor(props : Props) {
         super(props);
 
         this.addClick = this.addClick.bind(this);
@@ -35,19 +52,18 @@ export default class Page extends Component {
         this.setState({ showDialog: false });
     }
 
-    async getDialogData(title, desc, fileInput, user = 'Kevin') {
-        const file = fileInput.current.files[0];
+    getDialogData(title : string, desc : string, file : (File | null), user = 'Kevin') {
         this.props.sendNote(title, desc, file, user, this.props.pageName);
         this.hideDialog();
     }
 
-    addClick(e) {
+    addClick(e : React.MouseEvent<HTMLButtonElement,MouseEvent>) {
         e.preventDefault();
 
         this.showDialog();
     }
 
-    async removeNote(id) {
+    removeNote(id :string) {
         try {
             this.props.removeNote(id);
         } catch (err) {
@@ -71,13 +87,4 @@ export default class Page extends Component {
         </div>
     }
 
-}
-
-
-Page.propTypes = {
-    pageName : PropTypes.string,
-    removeNoteObj : PropTypes.object,
-    notes : PropTypes.arrayOf(PropTypes.object).isRequired,
-    cancelRemove : PropTypes.func.isRequired,
-    removeClick : PropTypes.func.isRequired
 }
