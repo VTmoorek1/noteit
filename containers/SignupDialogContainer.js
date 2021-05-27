@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import SignUpDialog from '../components/SignUpDialog';
+import SignUpForm from '../components/SignUpDialog';
 import {connect} from 'react-redux';
 import {registerUser} from '../redux/actions/authActions';
+import {dialogCreator} from '../components/DialogCreator';
+
+const SignUpDialog = dialogCreator(true,<SignUpForm />);
 
 /**
  * Dialog class handles sign up
@@ -12,12 +15,7 @@ class SignupDialogContainer extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            regMessage: null
-        };
-
         this.registerUser = this.registerUser.bind(this);
-
     }
 
     registerUser(email,name,password)
@@ -31,7 +29,7 @@ class SignupDialogContainer extends Component {
 
         return <div id="signUpDlgContainer">
             <SignUpDialog cancelHandler={cancelHandler} errorStr={errorStr} 
-               registerUser={this.registerUser} />
+               loginSuccessAction={this.registerUser} />
         </div>;
     }
 }

@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import LogInDialog from '../components/LogInDialog';
+import LogInForm from '../components/LogInDialog';
 import * as authActions from '../redux/actions/authActions';
 import {connect} from 'react-redux';
+import {dialogCreator} from '../components/DialogCreator';
+
+// Create Login Dialog
+const LogInDialog = dialogCreator(false,LogInForm);
 
 /**
  * Dialog class handles login
@@ -22,10 +26,10 @@ import {connect} from 'react-redux';
 
     render() {
 
-        const {okHandler,cancelHandler,error} = this.props;
+        const {cancelHandler,error} = this.props;
 
         return <div id="logInDlgContainer">
-            <LogInDialog login={this.login} errorStr={error} okHandler={okHandler} 
+            <LogInDialog loginSuccessAction={this.login} errorStr={error} 
                 cancelHandler ={cancelHandler} />
         </div>;
     }

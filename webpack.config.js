@@ -39,7 +39,7 @@ module.exports = {
         poll: true,
         ignored: /node_modules/
       },
-      "devtool": "eval-source-map",
+      "devtool": "source-map",
       resolve: {
         extensions: [".js", ".json", ".ts", ".tsx"],
       }
