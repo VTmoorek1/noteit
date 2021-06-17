@@ -5,7 +5,7 @@ import LoginDialogContainer from '../containers/LoginDialogContainer';
 import SignupDialogContainer from '../containers/SignupDialogContainer';
 
 interface Props {
-    loggedOn : string,
+    loggedOn : (string | null),
     showLoginDlg : boolean,
     showSignupDlg: boolean,
     signoutClicked : () => void,

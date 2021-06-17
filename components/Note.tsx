@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Media from './Media';
 import '../stylesheets/note.css';
+import { RemoveNoteItem } from '../interfaces/noteinterface';
 
 interface Props {
     title : string,
     mID : string,
     desc : string,
     file : Blob,
-    remove : (remObj : object) => void
+    remove : (remObj : RemoveNoteItem) => void
 }
 
 /**

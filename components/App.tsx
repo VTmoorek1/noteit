@@ -12,7 +12,7 @@ interface Props
     pageName : (string | null),
     deletePage : (p1 : string) => void,
     selectMenuItem : (p1 : string) => void,
-    addPage : (p1 : string) => Promise<string>,
+    addPage : (p1 : string) => Promise<boolean>,
     loading : boolean,
     pageItems : PageItem[]
 }

@@ -10,14 +10,14 @@ import {NoteItem, RemoveNoteItem} from '../interfaces/noteinterface';
 
 
 interface Props {
-    pageName : (string | null),
-    removeNoteObj : (RemoveNoteItem | null),
+    pageName : string,
+    removeNoteObj : RemoveNoteItem | null,
     notes : NoteItem[],
     cancelRemove : () => void,
-    removeClick : (obj : object) => void,
+    removeClick : (obj : RemoveNoteItem) => void,
     removeNote : (id :string) => void,
-    sendNote : (title: string, desc : string, file : (File | null), 
-        user : string, pageName : (string | null)) => void
+    sendNote : (title: string, desc : string, file : Blob, 
+        user : string, pageName : string )=> void
 }
 
 interface State {
@@ -52,7 +52,7 @@ export default class Page extends Component<Props,State> {
         this.setState({ showDialog: false });
     }
 
-    getDialogData(title : string, desc : string, file : (File | null), user = 'Kevin') {
+    getDialogData(title : string, desc : string, file : Blob, user = 'Kevin') {
         this.props.sendNote(title, desc, file, user, this.props.pageName);
         this.hideDialog();
     }

@@ -2,7 +2,7 @@ export interface NoteItem {
     id : string,
     title : string,
     desc : string,
-    file : File
+    file : Blob
 }
 
 export interface RemoveNoteItem {

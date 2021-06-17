@@ -28,7 +28,10 @@ module.exports = {
     mode : 'development',
     output: {
         path: parentDir + '/dist',
-        filename: 'bundle.js'
+        filename: 'bundle.js',
+        devtoolModuleFilenameTemplate: function(info){
+            return "file:///"+encodeURI(info.absoluteResourcePath);
+          }
     },
     devServer: {
         contentBase: parentDir,
@@ -39,7 +42,7 @@ module.exports = {
         poll: true,
         ignored: /node_modules/
       },
-      "devtool": "source-map",
+      "devtool": "inline-source-map",
       resolve: {
         extensions: [".js", ".json", ".ts", ".tsx"],
       }

@@ -8,20 +8,21 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\server\\index.js"
+            "program": "${workspaceFolder}/server/index.js",
         },
         {
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome",
             "url": "http://localhost:3000",
-            "webRoot": "${workspaceFolder}",
+            "webRoot": "${workspaceRoot}",    
             "sourceMaps": true,
             "skipFiles": [
                 "${workspaceRoot}/node_modules/**/*.js",
                 "<node_internals>/**/*.js"
             ],
-            "smartStep": true
+            "smartStep": true,
+            "trace": true,
         },
         {
             "type": "node",

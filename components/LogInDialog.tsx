@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../stylesheets/logindialog.css';
 import '../stylesheets/generaldialog.css';
+import {dialogCreator} from '../components/DialogCreator';
 
 interface Props {
     formData : {[key:string]: string}
@@ -11,7 +12,7 @@ interface Props {
 /**
  * Dialog class handles login
  */
-export default class LogInDialog extends Component<Props> {
+class LogInDialog extends Component<Props> {
 
     constructor(props: Props) {
         super(props);
@@ -56,5 +57,8 @@ export default class LogInDialog extends Component<Props> {
 
     }
 }
+
+// Create Login Dialog
+export default dialogCreator(false,LogInDialog);
 
 

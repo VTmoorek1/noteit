@@ -5,13 +5,13 @@ import '../stylesheets/dialog.css'
 import '../stylesheets/generaldialog.css';
 
 interface Props {
-    add: (title : string,desc : string, fileInput : File | null) => void,
+    add: (title : string,desc : string, fileInput : Blob) => void,
     cancel: (e? : React.MouseEvent<HTMLButtonElement,MouseEvent>) => void
 }
 
 interface State {
     [x: string]: any,
-    fileInput : (File | null),
+    fileInput : Blob | null,
 }
 
 /**
@@ -52,7 +52,15 @@ export default class Dialog extends Component<Props,State> {
 
     addAction () {
         const {title,desc,fileInput} = this.state;
-        this.props.add(title,desc,fileInput);
+
+        if (fileInput)
+        {
+            this.props.add(title,desc,fileInput);
+        }
+        else
+        {
+            this.setState({fileLabel : 'Please select a valid file.'});
+        }
     }
 
     render() {

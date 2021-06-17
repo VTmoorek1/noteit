@@ -1,5 +1,18 @@
-export default function reducer(state = {notes : [], error : null, removeNoteObj : null}
-    , action) {
+import { NoteItem, RemoveNoteItem } from "../../interfaces/noteinterface";
+import { NoteActions } from "../actions/noteActions";
+
+
+export interface NoteState {
+    notes: NoteItem[],
+    error: string | null,
+    removeNoteObj: RemoveNoteItem | null,
+    loading: boolean
+}
+
+export function reducer(state: NoteState = {
+    notes: [], error: null, removeNoteObj: null, loading: false
+}
+    , action: NoteActions) {
 
     switch (action.type) {
 
@@ -9,15 +22,18 @@ export default function reducer(state = {notes : [], error : null, removeNoteObj
         case 'FETCH_NOTES_SUCCESS':
             state = {
                 ...state, loading: action.loading,
-                notes : action.notes
+                notes: action.notes
             };
             break;
         case 'ADD_NOTE_SUCCESS':
-            state = {
-                ...state, notes : [{ title: action.note.title, desc: action.note.desc, file: action.note.file, id: action.note.id },
-                ...state.notes], loading : action.loading 
-            };
-            break;
+
+            if (action.note) {
+                state = {
+                    ...state, notes: [{ title: action.note.title, desc: action.note.desc, file: action.note.file, id: action.note.id },
+                    ...state.notes], loading: action.loading
+                };
+                break;
+            }
         case 'ADD_NOTE_FAILURE': case 'DELETE_NOTE_FAILURE': case 'FETCH_NOTES_FAILURE':
             state = {
                 ...state, error: action.error, loading: action.loading
@@ -34,13 +50,13 @@ export default function reducer(state = {notes : [], error : null, removeNoteObj
 
             const noteArr = [...state.notes];
             noteArr.splice(i, 1);
-            state = {...state, notes : noteArr, loading : action.loading};
+            state = { ...state, notes: noteArr, loading: action.loading };
             break;
-       case 'SET_REMOVE_NOTE':
-            state = { ...state, removeNoteObj : action.removeNote};
+        case 'SET_REMOVE_NOTE':
+            state = { ...state, removeNoteObj: action.removeNote };
             break;
-        
+
     }
-    
+
     return state;
 };

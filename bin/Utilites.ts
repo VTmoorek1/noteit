@@ -51,6 +51,10 @@ export default {
                         break;
                 }
             }
+            else
+            {
+                type = Media[typeStr];
+            }
         }
 
         return type;

@@ -8,7 +8,7 @@ interface Props {
     deletePageEvent : (pageName : string) => void,
     pageName : (string|null),
     pageItems : PageItem[],
-    addPage : (pageName : string) => Promise<string>,
+    addPage : (pageName : string) => Promise<boolean>,
     selectMenuItem : (pageName : string) => void
 }
 
